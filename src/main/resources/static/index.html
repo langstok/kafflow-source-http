@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>NAFSource</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap-theme.min.css" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js" crossorigin="anonymous"></script>
+<style type='text/css'>
+
+</style>
+</head>
+<body>
+	<div class='container'>
+		<div class="page-header">
+			<h1>NAFSource</h1>
+		</div>
+		<form>
+
+<div class="well">
+<div class="form-group">
+  <label for="rawText">rawText:</label>
+  <textarea id='rawText' class="form-control" rows="5" id="rawText">President Vladimir Putin has ordered the Russian military to take 'extremely tough' action against any threat to its forces in Syria.
+Such targets must be 'immediately destroyed', he told defence officials in televised comments.
+Mr Putin did not elaborate on specific threats but Turkey and Russia are currently locked in a dispute over the downing of a Russian jet by Ankara.
+Turkey said the bomber had entered its airspace, something denied by Russia.
+A Russian pilot was killed in the downing of the Su-24 bomber, as was a marine sent on a rescue mission, badly damaging the normally close ties between Ankara and Moscow.
+Mr Putin warned against 'further provocations' without naming Turkey directly.
+Russia 'now supports FSA'
+Russia began air strikes in Syria in September, at the request of its ally President Bashar al-Assad.
+In an update on Russian operations, Mr Putin said the military was now supporting Free Syrian Army (FSA) forces.
+There has been no confirmation from the FSA, who are fighting President Assad and have been bombed by Russia.
+The Kremlin has denied accusations by the US-led coalition operating in Syria it often targets moderate Syrian opposition, rather than Islamic State (IS) militants.
+</textarea>
+</div>
+			
+			<div class="form-group">
+			  <label for="language">language:</label>
+				<select id='language' value='language'>
+					<option value="en">en</option>
+					<option value="nl">nl</option>
+					<option value="de">de</option>
+					<option value="fr">fr</option>
+				</select>
+			</div>
+
+			<div class="input-group">
+  			<input type="text" class="form-control" placeholder="author" id="author" value="author">
+			</div>
+
+			<div class="input-group">
+  			<input type="text" class="form-control" placeholder="title" id="title" value="title">
+			</div>
+			
+			<div class="input-group">
+  			<input type="text" class="form-control" placeholder="publisher" id="publisher" value="publisher">
+			</div>
+			
+			<div class="input-group">
+  			<input type="text" class="form-control" placeholder="section" id="section" value="section">
+			</div>
+			
+			<div class="input-group">
+  			<input type="text" class="form-control" placeholder="location" id="location" value="location">
+			</div>
+			
+			<div class="input-group">
+  			<input type="text" class="form-control" placeholder="magazine" id="magazine" value="magazine">
+			</div>
+			
+			<div class="input-group">
+  			<input type="text" class="form-control" placeholder="filename" id="filename" value="filename">
+			</div>
+			
+			<div class="input-group">
+  			<input type="text" class="form-control" placeholder="filetype" id="filetype" value="filetype">
+			</div>
+			
+			<div class="input-group">
+  			<input type="number" class="form-control" placeholder="pages" id="pages" value="1">
+			</div>
+				
+			<div class="input-group">
+  			<input type="date" class="form-control" placeholder="creationtime" id="creationtime" value="2016-01-01">
+			</div>
+			
+			<div class="input-group">
+  			<input type="text" class="form-control" placeholder="publicId" id="publicId" value="publicId">
+			</div>
+			
+			<div class="input-group">
+  			<input type="text" class="form-control" placeholder="uri" id="uri" value="uri">
+			</div>
+
+			<hr>
+			<div>			
+				<a class="btn btn-default" href='javascript:postData();'>POST</a> status: <span id='status'></span>
+			</div>
+			</div>
+			<br>
+			
+			<!-- <div class="form-group">
+  			<label for="outputText">output:</label>
+  			<textarea id='outputText' value='outputText' class="form-control" rows="20"></textarea>
+			</div> -->
+			
+		
+		</form>
+	</div>
+	<script>
+		function postData() {
+
+			/* document.getElementById('outputText').innerHTML = ''; */
+			document.getElementById('status').innerHTML = '';
+
+			var data = {};
+			data.rawText = document.getElementById('rawText').value;
+			data.language = document.getElementById('language').value;
+			
+			data.author = document.getElementById('author').value;
+			data.title = document.getElementById('title').value;
+			data.publisher = document.getElementById('publisher').value;
+			data.section = document.getElementById('section').value;
+			data.location = document.getElementById('location').value;
+			data.magazine = document.getElementById('magazine').value;
+			data.filename = document.getElementById('filename').value;
+			data.pages = document.getElementById('pages').value;
+			data.creationtime = document.getElementById('creationtime').value;
+			
+			data.publicId = document.getElementById('publicId').value;
+			data.uri = document.getElementById('uri').value;
+			
+			var jsonString = JSON.stringify(data);
+			console.log(jsonString)
+
+			var xhr = new XMLHttpRequest();
+			xhr.open('POST', "/api/naf", true);
+			xhr.setRequestHeader('Content-type', 'application/json');
+			xhr.send(jsonString);
+
+			xhr.onreadystatechange = function() {
+
+				document.getElementById('status').innerHTML = xhr.status;
+
+				if (xhr.responseText) {
+					var jsonResponse = JSON.parse(xhr.responseText)
+					var jsonStr = JSON.stringify(eval(jsonResponse));
+
+					//document.getElementById('outputText').value = jsonStr;
+				}
+
+			}
+		}
+	</script>
+</body>
+</html>
