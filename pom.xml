@@ -3,12 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.langstok.nlp.httpnafsource</groupId>
-	<artifactId>httpnafsource</artifactId>
+	<groupId>com.langstok.nlp</groupId>
+	<artifactId>source-http-naf</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>httpnafsource</name>
+	<name>source-http-naf</name>
 	<description>Spring Cloud Streaming Source for http NAF</description>
 
 	<parent>

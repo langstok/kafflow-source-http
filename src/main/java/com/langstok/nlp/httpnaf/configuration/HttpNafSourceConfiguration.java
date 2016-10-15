@@ -1,4 +1,4 @@
-package com.langstok.nlp.httpnafsource.configuration;
+package com.langstok.nlp.httpnaf.configuration;
 
 import java.util.Collections;
 
@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.langstok.nlp.httpnafsource.service.NafService;
-import com.langstok.nlp.httpnafsource.web.dto.NafDTO;
+import com.langstok.nlp.httpnaf.service.NafService;
+import com.langstok.nlp.httpnaf.web.dto.NafDTO;
 
 import ixa.kaflib.KAFDocument;
 

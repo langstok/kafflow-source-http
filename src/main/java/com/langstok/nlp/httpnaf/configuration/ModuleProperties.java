@@ -1,4 +1,4 @@
-package com.langstok.nlp.httpnafsource.configuration;
+package com.langstok.nlp.httpnaf.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

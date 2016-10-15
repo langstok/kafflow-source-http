@@ -1,4 +1,4 @@
-package news.colourful.nlp.httpnafsource;
+package com.langstok.nlp.httpnaf;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

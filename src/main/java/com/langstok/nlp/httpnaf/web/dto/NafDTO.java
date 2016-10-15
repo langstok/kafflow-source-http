@@ -1,4 +1,4 @@
-package com.langstok.nlp.httpnafsource.web.dto;
+package com.langstok.nlp.httpnaf.web.dto;
 
 public class NafDTO {
 	

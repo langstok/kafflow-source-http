@@ -1,9 +1,9 @@
-package com.langstok.nlp.httpnafsource.service;
+package com.langstok.nlp.httpnaf.service;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import com.langstok.nlp.httpnafsource.web.dto.NafDTO;
+import com.langstok.nlp.httpnaf.web.dto.NafDTO;
 
 import ixa.kaflib.KAFDocument;
 
@@ -12,9 +12,11 @@ public class NafService {
 	
 	private final static Logger LOGGER = Logger.getLogger(NafService.class);
 	
+	private final static String NAFVERSION = "v1.naf";
+	
 	public KAFDocument create(NafDTO dto) {
 
-		KAFDocument document = new KAFDocument(dto.getLanguage(), KAFDocument.class.getPackage().getImplementationVersion());
+		KAFDocument document = new KAFDocument(dto.getLanguage(), NAFVERSION);
 		document.setRawText(dto.getRawText());		
 	
 		document.createPublic();
