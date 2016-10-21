@@ -39,7 +39,7 @@ public class HttpNafSourceConfiguration {
 	private Source channels;
 	
 	@Autowired
-	NafService nafService;
+	private NafService nafService;
 
 	
 	@RequestMapping(path = "${http.pathPattern:/api/naf}", method = RequestMethod.POST, consumes = "*/*")

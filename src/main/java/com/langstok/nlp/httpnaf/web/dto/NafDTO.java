@@ -1,5 +1,7 @@
 package com.langstok.nlp.httpnaf.web.dto;
 
+import java.util.Date;
+
 public class NafDTO {
 	
 	private String author = "";
@@ -11,7 +13,7 @@ public class NafDTO {
 	private String filename = "";
 	private String filetype = "";
 	private Integer pages = 0;
-	private String creationtime = "";
+	private Date creationtime = new Date();
 	
 	private String publicId = "";
 	private String uri = "";
@@ -73,10 +75,11 @@ public class NafDTO {
 	public void setPages(Integer pages) {
 		this.pages = pages;
 	}
-	public String getCreationtime() {
+	
+	public Date getCreationtime() {
 		return creationtime;
 	}
-	public void setCreationtime(String creationtime) {
+	public void setCreationtime(Date creationtime) {
 		this.creationtime = creationtime;
 	}
 	public String getPublicId() {

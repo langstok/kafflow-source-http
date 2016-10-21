@@ -1,19 +1,37 @@
 package com.langstok.nlp.httpnaf.service;
 
+import java.text.SimpleDateFormat;
+
+import javax.annotation.PostConstruct;
+
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 
+import com.langstok.nlp.httpnaf.configuration.ModuleProperties;
 import com.langstok.nlp.httpnaf.web.dto.NafDTO;
 
 import ixa.kaflib.KAFDocument;
 
 @Service
+@EnableConfigurationProperties(ModuleProperties.class)
 public class NafService {
 	
 	private final static Logger LOGGER = Logger.getLogger(NafService.class);
 	
 	private final static String NAFVERSION = "v1.naf";
 	
+	@Autowired
+	private ModuleProperties moduleProperties;
+
+	private SimpleDateFormat dateFormat;
+	
+	@PostConstruct
+	private void init(){
+		this.dateFormat = new SimpleDateFormat(moduleProperties.getKafCreationDateFormat());
+	}
+		
 	public KAFDocument create(NafDTO dto) {
 
 		KAFDocument document = new KAFDocument(dto.getLanguage(), NAFVERSION);
@@ -24,7 +42,7 @@ public class NafService {
 		document.getPublic().publicId = dto.getPublicId();
 				
 		document.createFileDesc();
-		document.getFileDesc().creationtime = dto.getCreationtime();
+		document.getFileDesc().creationtime = dateFormat.format(dto.getCreationtime());
 		document.getFileDesc().location = dto.getLocation();
 		document.getFileDesc().section = dto.getSection();
 		document.getFileDesc().title = dto.getTitle();
