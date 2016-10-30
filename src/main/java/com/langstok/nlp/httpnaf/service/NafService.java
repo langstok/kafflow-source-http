@@ -1,8 +1,7 @@
 package com.langstok.nlp.httpnaf.service;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 
@@ -42,7 +41,8 @@ public class NafService {
 		KAFDocument document = new KAFDocument(dto.getLanguage(), NAFVERSION);
 
 		if(dto.getNaf()!=null && !dto.getNaf().isEmpty()){
-			KAFDocument.createFromStream(new InputStreamReader(new ByteArrayInputStream( dto.getNaf().getBytes( "UTF-8" ) )));
+			if(LOGGER.isDebugEnabled()) LOGGER.debug("NAF nr of lines:" + countLines(dto.getNaf()));
+			KAFDocument.createFromStream( new StringReader(dto.getNaf()));
 		}
 		else{
 			document.setRawText(dto.getRawText());		
@@ -67,4 +67,9 @@ public class NafService {
 		LOGGER.info("KAFDocument received (publicId / uri): " + document.getPublic().publicId + " / " + document.getPublic().uri);
 		return document;
 	}
+	
+	private static int countLines(String str){
+		   String[] lines = str.split("\r\n|\r|\n");
+		   return  lines.length;
+		}
 }
