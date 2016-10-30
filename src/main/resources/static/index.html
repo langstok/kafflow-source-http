@@ -27,8 +27,12 @@
 
 <div class="well">
 <div class="form-group">
+  <label for="rawText">NAF:</label>
+  <textarea id='naf' class="form-control" rows="5"></textarea>
+</div>
+<div class="form-group">
   <label for="rawText">rawText:</label>
-  <textarea id='rawText' class="form-control" rows="5" id="rawText">Internal emails expose Boeing-Air Force contract discussions
+  <textarea id='rawText' class="form-control" rows="5">Internal emails expose Boeing-Air Force contract discussions
 
 November 24, 2004
 
@@ -138,6 +142,7 @@ Days after Sen. McCain's remarks, the Air Force said the tanker replacement cont
 			document.getElementById('status').innerHTML = '';
 
 			var data = {};
+			data.naf = document.getElementById('naf').value;
 			data.rawText = document.getElementById('rawText').value;
 			data.language = document.getElementById('language').value;
 			

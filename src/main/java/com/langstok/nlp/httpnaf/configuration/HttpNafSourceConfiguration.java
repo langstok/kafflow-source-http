@@ -1,7 +1,10 @@
 package com.langstok.nlp.httpnaf.configuration;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 
+import org.jdom2.JDOMException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Source;
@@ -46,7 +49,7 @@ public class HttpNafSourceConfiguration {
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public void handleRequest(
 			@RequestBody NafDTO body, 
-			@RequestHeader(HttpHeaders.CONTENT_TYPE) Object contentType) {
+			@RequestHeader(HttpHeaders.CONTENT_TYPE) Object contentType) throws UnsupportedEncodingException, IOException, JDOMException {
 		sendMessage(nafService.create(body), contentType);
 	}
 

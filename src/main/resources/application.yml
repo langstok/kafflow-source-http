@@ -1,5 +1,5 @@
 server:
-  port: ${vcap.application.ixatokprocessor.port:8061}
+  port: 8080
 
 logging:
   file: httpnaf.log

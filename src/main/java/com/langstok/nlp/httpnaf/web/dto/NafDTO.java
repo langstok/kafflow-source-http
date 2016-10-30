@@ -21,6 +21,8 @@ public class NafDTO {
 	private String rawText = "";
 	private String language = "";
 	
+	private String naf;
+	
 	public String getAuthor() {
 		return author;
 	}
@@ -105,6 +107,12 @@ public class NafDTO {
 	}
 	public void setLanguage(String language) {
 		this.language = language;
+	}
+	public String getNaf() {
+		return naf;
+	}
+	public void setNaf(String naf) {
+		this.naf = naf;
 	}
 	
 }
