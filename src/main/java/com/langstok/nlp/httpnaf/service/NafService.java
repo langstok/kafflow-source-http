@@ -38,13 +38,14 @@ public class NafService {
 
 	public KAFDocument create(NafDTO dto) throws UnsupportedEncodingException, IOException, JDOMException {
 
-		KAFDocument document = new KAFDocument(dto.getLanguage(), NAFVERSION);
+		KAFDocument document = null;
 
 		if(dto.getNaf()!=null && !dto.getNaf().isEmpty()){
 			if(LOGGER.isDebugEnabled()) LOGGER.debug("NAF nr of lines:" + countLines(dto.getNaf()));
-			KAFDocument.createFromStream( new StringReader(dto.getNaf()));
+			document = KAFDocument.createFromStream( new StringReader(dto.getNaf()));
 		}
 		else{
+			document = new KAFDocument(dto.getLanguage(), NAFVERSION);
 			document.setRawText(dto.getRawText());		
 
 			document.createPublic();
