@@ -14,7 +14,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Service;
 
 import com.langstok.nlp.httpnaf.configuration.ModuleProperties;
-import com.langstok.nlp.httpnaf.web.dto.NafDTO;
+import com.langstok.nlp.httpnaf.web.dto.NafDto;
 
 import ixa.kaflib.KAFDocument;
 
@@ -36,7 +36,7 @@ public class NafService {
 		this.dateFormat = new SimpleDateFormat(moduleProperties.getKafCreationDateFormat());
 	}
 
-	public KAFDocument create(NafDTO dto) throws UnsupportedEncodingException, IOException, JDOMException {
+	public KAFDocument create(NafDto dto) throws UnsupportedEncodingException, IOException, JDOMException {
 
 		KAFDocument document = null;
 

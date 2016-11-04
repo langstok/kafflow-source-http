@@ -43,6 +43,10 @@ Local install applications (for correct users, not necessary after maven central
     mvn install -f ./sink-naf-http/pom.xml
     mvn install -f ./processor-ixa-pipe-topic
 
+Stream
+
+    http-naf | ixa-pipe-exec --directory=/cfn/opinion_miner_deluxePP/opinion_miner_deluxePP --command='python tag_file.py -d news' | naf-http
+
 
 
 Bulk import applications in dashboard

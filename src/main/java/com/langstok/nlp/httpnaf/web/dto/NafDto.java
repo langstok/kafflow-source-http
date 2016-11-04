@@ -2,7 +2,7 @@ package com.langstok.nlp.httpnaf.web.dto;
 
 import java.util.Date;
 
-public class NafDTO {
+public class NafDto {
 	
 	private String author = "";
 	private String title = "";

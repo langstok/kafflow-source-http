@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.langstok.nlp.httpnaf.service.NafService;
-import com.langstok.nlp.httpnaf.web.dto.NafDTO;
+import com.langstok.nlp.httpnaf.web.dto.NafDto;
 
 import ixa.kaflib.KAFDocument;
 
@@ -48,12 +48,12 @@ public class HttpNafSourceConfiguration {
 	@RequestMapping(path = "${http.pathPattern:/api/naf}", method = RequestMethod.POST, consumes = "*/*")
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public void handleRequest(
-			@RequestBody NafDTO body, 
+			@RequestBody NafDto body, 
 			@RequestHeader(HttpHeaders.CONTENT_TYPE) Object contentType) throws UnsupportedEncodingException, IOException, JDOMException {
 		sendMessage(nafService.create(body), contentType);
 	}
 
-	private void sendMessage(KAFDocument kafDocument, Object contentType) {
+	public void sendMessage(KAFDocument kafDocument, Object contentType) {
 		channels.output().send(MessageBuilder.createMessage(kafDocument,
 				new MessageHeaders(Collections.singletonMap(MessageHeaders.CONTENT_TYPE, contentType))));
 	}
