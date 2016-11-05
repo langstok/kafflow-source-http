@@ -1,7 +1,26 @@
 server:
   port: 8080
 
+elasticSearchEnabled: true
+elasticSearchNafMapping:
+  # author:
+  creationTime: dateRetrieved
+  # fileName:
+  # fileType:
+  language: language
+  location: outletCountry
+  magazine: outletName
+  # naf: naf
+  # pages:
+  publisher: ownerName
+  rawText: text
+  section: category
+  title: title
+
+ 
+
 logging:
   file: httpnaf.log
   level: 
     com.langstok: debug
+    

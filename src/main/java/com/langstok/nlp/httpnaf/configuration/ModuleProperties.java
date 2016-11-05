@@ -1,8 +1,11 @@
 package com.langstok.nlp.httpnaf.configuration;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix="httpsource")
+@ConfigurationProperties
 public class ModuleProperties {
 	
 	private String kafCreationDateFormat = "yyyy-MM-dd'T'HH:mm:ss";
@@ -20,7 +23,7 @@ public class ModuleProperties {
 	/**
 	 * Document type in index
 	 */
-	private String elasticSearchType;
+	private String elasticSearchType = "article";
 	
 	/**
 	 * ElasticSearch host (default localhost)
@@ -37,7 +40,7 @@ public class ModuleProperties {
 	 */
 	private boolean elasticSearchEnabled = true;
 	
-	
+	private Map<String,String> elasticSearchNafMapping = new HashMap<>();
 
 	public String getKafCreationDateFormat() {
 		return kafCreationDateFormat;
@@ -94,7 +97,14 @@ public class ModuleProperties {
 	public void setElasticSearchEnabled(boolean elasticSearchEnabled) {
 		this.elasticSearchEnabled = elasticSearchEnabled;
 	}
-	
-	
 
+	public Map<String, String> getElasticSearchNafMapping() {
+		return elasticSearchNafMapping;
+	}
+
+	public void setElasticSearchNafMapping(Map<String, String> elasticSearchNafMapping) {
+		this.elasticSearchNafMapping = elasticSearchNafMapping;
+	}
+
+	
 }

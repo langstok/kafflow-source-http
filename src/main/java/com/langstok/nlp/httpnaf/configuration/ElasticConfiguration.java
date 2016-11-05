@@ -13,8 +13,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConditionalOnProperty("elasticSearchEnabled")
 @EnableConfigurationProperties(ModuleProperties.class)
+@ConditionalOnProperty(value = "elasticSearchEnabled")
 public class ElasticConfiguration {
 
 	@Autowired

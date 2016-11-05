@@ -1,12 +1,15 @@
 package com.langstok.nlp.httpnaf.service;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.util.Date;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.annotation.PostConstruct;
 
 import org.apache.log4j.Logger;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.Client;
-import org.jdom2.JDOMException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -15,8 +18,8 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.langstok.nlp.httpnaf.configuration.ModuleProperties;
-import com.langstok.nlp.httpnaf.web.dto.ArticleDto;
 import com.langstok.nlp.httpnaf.web.dto.NafDto;
 
 import ixa.kaflib.KAFDocument;
@@ -26,62 +29,93 @@ import ixa.kaflib.KAFDocument;
 @ConditionalOnBean(Client.class)
 @EnableConfigurationProperties(ModuleProperties.class)
 public class ElasticNafMapper {
-	
+
 	private final static Logger LOGGER = Logger.getLogger(ElasticNafMapper.class);
-	
+
 	@Autowired
 	private Client client;
-	
+
 	@Autowired
 	ModuleProperties moduleProperties;
-	
+
 	@Autowired
 	NafService nafService;
 	
-	private ObjectMapper mapper = new ObjectMapper();
+	private Map<String,String> nafMapping;
 
-	public KAFDocument getKAFDocumentById(String lang, String id) throws UnsupportedEncodingException, IOException, JDOMException{
-		return nafService.create(mapArticleToKafDto(mapArticleResponse(client.prepareGet("articles-"+lang, "article", id).get())));
+	public KAFDocument getKAFDocumentById(String id, String lang) throws Exception{
+		
+		String index = moduleProperties.getElasticSearchIndex();
+		if(moduleProperties.isElasticSearchIndexLangPostFix()) 
+			index = index+"-"+lang;
+		String type = moduleProperties.getElasticSearchType();
+		LOGGER.debug("Get article id:" +id+" for index: "+ index +" and type: " + type);
+		
+		GetResponse response = client.prepareGet("articles-"+lang, "article", id).get();
+		if(response.getSourceAsString()==null) 
+			throw new Exception("document not found");
+		
+		return nafService.create(mapResponse(response));
 	}
-	
-	
-	private NafDto mapArticleToKafDto(ArticleDto article){
+
+
+
+
+	private NafDto mapResponse(GetResponse response) throws JsonParseException, JsonMappingException, IOException{
+		
+		final ObjectNode node = new ObjectMapper().readValue(response.getSourceAsString(), ObjectNode.class);
 		NafDto dto = new NafDto();
-		dto.setPublicId(article.getId());
-		dto.setCreationtime(article.getDateRetrieved());
-		dto.setLanguage(article.getLanguage());
-		dto.setLocation(article.getOutletCountry());
-		dto.setMagazine(article.getOutletName());
-		dto.setTitle(article.getTitle());
-		dto.setRawText(article.getText());
-		dto.setUri(article.getUri());
+		dto.setPublicId(response.getId());
+		
+		if (nafMapping.containsKey("author") && node.has(nafMapping.get("author"))) {
+			dto.setAuthor(node.get("author").asText());
+		} 
+		if (nafMapping.containsKey("creationTime") && node.has(nafMapping.get("creationTime"))) {
+			dto.setCreationtime(new Date(node.get(nafMapping.get("creationTime")).asLong()));
+		} 
+		if (nafMapping.containsKey("fileName") && node.has(nafMapping.get("fileName"))) {
+			dto.setFilename(node.get(nafMapping.get("fileName")).asText());
+		}
+		if (nafMapping.containsKey("fileType") && node.has(nafMapping.get("fileType"))) {
+			dto.setFiletype(node.get(nafMapping.get("fileType")).asText());
+		} 
+		if (nafMapping.containsKey("language") && node.has(nafMapping.get("language"))) {
+			dto.setLanguage(node.get(nafMapping.get("language")).asText());
+		} 
+		if (nafMapping.containsKey("location") && node.has(nafMapping.get("location"))) {
+			dto.setLocation(node.get(nafMapping.get("location")).asText());
+		} 
+		if (nafMapping.containsKey("magazine") && node.has(nafMapping.get("magazine"))) {
+			dto.setMagazine(node.get(nafMapping.get("magazine")).asText());
+		} 
+		if (nafMapping.containsKey("naf") && node.has(nafMapping.get("naf"))) {
+			dto.setNaf(node.get(nafMapping.get("naf")).asText());
+		} 
+		if (nafMapping.containsKey("pages") && node.has(nafMapping.get("pages"))) {
+			dto.setPages(node.get(nafMapping.get("pages")).asInt());
+		} 
+		if (nafMapping.containsKey("publisher") && node.has(nafMapping.get("publisher"))) {
+			dto.setPublisher(node.get(nafMapping.get("publisher")).asText());
+		}
+		if (nafMapping.containsKey("rawText") && node.has(nafMapping.get("rawText"))) {
+			dto.setRawText(node.get(nafMapping.get("rawText")).asText());
+		}
+		if (nafMapping.containsKey("section") && node.has(nafMapping.get("section"))) {
+			dto.setSection(node.get(nafMapping.get("section")).asText());
+		}
+		if (nafMapping.containsKey("title") && node.has(nafMapping.get("title"))) {
+			dto.setTitle(node.get(nafMapping.get("title")).asText());
+		}
+		if (nafMapping.containsKey("uri") && node.has(nafMapping.get("uri"))) {
+			dto.setUri(node.get(nafMapping.get("uri")).asText());
+		} 
 		return dto;
 	}
-	
-	private ArticleDto mapArticleResponse(GetResponse response){
-		if(response==null || !response.isExists())
-			return null;
-		
-		try {
-			ArticleDto dto = mapper.readValue(response.getSourceAsString(), ArticleDto.class);
-			dto.setId(response.getId());
-			return dto;
-		} catch (JsonParseException e) {
-			LOGGER.error("JsonParseException source:" + response.getSourceAsString());
-			LOGGER.error("JsonParseException", e);
-			return null;
 
-		} catch (JsonMappingException e) {
-			LOGGER.error("JsonMappingException source:" + response.getSourceAsString());
-			LOGGER.error("JsonMappingException", e);
-			return null;
-
-		} catch (IOException e) {
-			LOGGER.error("IOException source:" + response.getSourceAsString());
-			LOGGER.error("IOException", e);
-			return null;
-		}
+	@PostConstruct
+	private void init(){
+		nafMapping = moduleProperties.getElasticSearchNafMapping();
+		LOGGER.info("NAF mapping: " + nafMapping.toString());
 	}
-
 
 }
