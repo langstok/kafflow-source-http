@@ -2,6 +2,10 @@ server:
   port: 8080
 
 elasticSearchEnabled: true
+elasticSearchHost: ${vcap.services.elasticsearch.host:localhost}
+elasticSearchIndex: ${vcap.services.elasticsearch.index:articles}
+elasticSearchType: ${vcap.services.elasticsearch.type:article}
+
 elasticSearchNafMapping:
   # author:
   creationTime: dateRetrieved
@@ -17,7 +21,14 @@ elasticSearchNafMapping:
   section: category
   title: title
 
- 
+eureka:
+ client:
+  enabled: true
+  serviceUrl:
+   defaultZone: ${vcap.services.eureka-service.credentials.uri:http://localhost:8761}/eureka/
+ instance:
+    statusPageUrlPath: /
+    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
 logging:
   file: httpnaf.log

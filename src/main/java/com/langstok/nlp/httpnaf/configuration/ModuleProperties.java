@@ -13,7 +13,7 @@ public class ModuleProperties {
 	/**
 	 * elasticSearchIndex default "articles"
 	 */
-	private String elasticSearchIndex = "articles";
+	private String elasticSearchIndex;
 	
 	/**
 	 * Enable of disable language index postfix (e.g. articles-en)
@@ -23,12 +23,12 @@ public class ModuleProperties {
 	/**
 	 * Document type in index
 	 */
-	private String elasticSearchType = "article";
+	private String elasticSearchType;
 	
 	/**
 	 * ElasticSearch host (default localhost)
 	 */
-	private String elasticSearchHost = "localhost";
+	private String elasticSearchHost = "spmm";
 	
 	/**
 	 * ElasticSearch port (default 9300)

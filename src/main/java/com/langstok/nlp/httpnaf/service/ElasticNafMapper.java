@@ -3,7 +3,6 @@ package com.langstok.nlp.httpnaf.service;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
 
