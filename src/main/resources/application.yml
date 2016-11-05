@@ -2,9 +2,9 @@ server:
   port: 8080
 
 elasticSearchEnabled: true
-elasticSearchHost: ${vcap.services.elasticsearch.host:localhost}
-elasticSearchIndex: ${vcap.services.elasticsearch.index:articles}
-elasticSearchType: ${vcap.services.elasticsearch.type:article}
+elasticSearchHost: ${elasticsearch.host:localhost}
+elasticSearchIndex: ${elasticsearch.index:articles}
+elasticSearchType: ${elasticsearch.type:article}
 
 elasticSearchNafMapping:
   # author:
