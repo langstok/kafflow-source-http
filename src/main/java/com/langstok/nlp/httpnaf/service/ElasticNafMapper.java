@@ -10,7 +10,6 @@ import org.apache.log4j.Logger;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.Client;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +24,6 @@ import ixa.kaflib.KAFDocument;
 
 
 @Service
-@ConditionalOnBean(Client.class)
 @EnableConfigurationProperties(ModuleProperties.class)
 public class ElasticNafMapper {
 

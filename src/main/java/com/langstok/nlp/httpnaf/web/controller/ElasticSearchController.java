@@ -1,9 +1,7 @@
 package com.langstok.nlp.httpnaf.web.controller;
 
 import org.apache.http.entity.ContentType;
-import org.elasticsearch.client.Client;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,7 +15,6 @@ import ixa.kaflib.KAFDocument;
 
 @RestController
 @RequestMapping(value="/api")
-@ConditionalOnBean(Client.class)
 public class ElasticSearchController {
 	
 	@Autowired
