@@ -6,7 +6,7 @@
 
 
 - Install [Kafka](https://kafka.apache.org/) & [Zookeeper](https://zookeeper.apache.org/)
-- Install [Spring Data Flow Local](https://github.com/spring-cloud/spring-cloud-dataflow) (for local usage)
+- Install (for local usage) [spring-cloud-dataflow-server-local](https://github.com/spring-cloud/spring-cloud-dataflow/tree/master/spring-cloud-dataflow-server-local)
 
 Navigate to the Spring Data Flow Local dashboard [http://localhost:9393/dashboard](http://localhost:9393/dashboard) (default)
 
