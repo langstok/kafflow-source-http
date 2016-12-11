@@ -43,7 +43,7 @@ public class ModuleProperties {
 	/**
 	 * ElasticSearch cluster_name (default elasticsearch)
 	 */
-	private String elasticSearchCluster_name = "elasticsearch";
+	private String elasticSearchCluster_name;
 	
 	private Map<String,String> elasticSearchNafMapping = new HashMap<>();
 
