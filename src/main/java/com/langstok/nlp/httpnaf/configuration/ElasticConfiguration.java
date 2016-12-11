@@ -6,7 +6,9 @@ import java.net.UnknownHostException;
 import org.apache.log4j.Logger;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -22,17 +24,22 @@ public class ElasticConfiguration {
 	ModuleProperties moduleProperties;
 
 	@Bean
-	public Client client() throws UnknownHostException{
+	public Client client() throws UnknownHostException {
 		if(moduleProperties.isElasticSearchEnabled()){
 			LOGGER.info("elasticSearchEnabled, setup client for "
 					+ " elasticSearchHost:"+ moduleProperties.getElasticSearchHost() 
-					+ " elasticSearchPort:"+ moduleProperties.getElasticSearchPort()  );
+					+ " elasticSearchPort:"+ moduleProperties.getElasticSearchPort()
+					+ " elasticSearchCluster_name:"+ moduleProperties.getElasticSearchCluster_name()  );
 
-			return TransportClient.builder().build()
-					.addTransportAddress(new InetSocketTransportAddress(
-							InetAddress.getByName(
-									moduleProperties.getElasticSearchHost()), 
-							moduleProperties.getElasticSearchPort()));
+			
+			Settings settings = Settings.builder()
+			        .put("cluster.name", moduleProperties.getElasticSearchCluster_name()).build();
+			
+			TransportClient client = new PreBuiltTransportClient(settings)
+			        .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(
+			        		moduleProperties.getElasticSearchHost()), 
+			        		moduleProperties.getElasticSearchPort()));
+			return client;
 		}
 		else{
 			LOGGER.info("elasticSearchEnabled: false");

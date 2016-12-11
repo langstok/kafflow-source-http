@@ -40,6 +40,11 @@ public class ModuleProperties {
 	 */
 	private boolean elasticSearchEnabled = true;
 	
+	/**
+	 * ElasticSearch cluster_name (default elasticsearch)
+	 */
+	private String elasticSearchCluster_name = "elasticsearch";
+	
 	private Map<String,String> elasticSearchNafMapping = new HashMap<>();
 
 	public String getKafCreationDateFormat() {
@@ -106,5 +111,12 @@ public class ModuleProperties {
 		this.elasticSearchNafMapping = elasticSearchNafMapping;
 	}
 
+	public String getElasticSearchCluster_name() {
+		return elasticSearchCluster_name;
+	}
+
+	public void setElasticSearchCluster_name(String elasticSearchCluster_name) {
+		this.elasticSearchCluster_name = elasticSearchCluster_name;
+	}
 	
 }
