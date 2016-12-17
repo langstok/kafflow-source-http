@@ -43,7 +43,7 @@ public class ModuleProperties {
 	/**
 	 * ElasticSearch cluster_name (default elasticsearch)
 	 */
-	private String elasticSearchCluster_name;
+	private String elasticSearchClusterName;
 	
 	private Map<String,String> elasticSearchNafMapping = new HashMap<>();
 
@@ -111,12 +111,12 @@ public class ModuleProperties {
 		this.elasticSearchNafMapping = elasticSearchNafMapping;
 	}
 
-	public String getElasticSearchCluster_name() {
-		return elasticSearchCluster_name;
+	public String getElasticSearchClusterName() {
+		return elasticSearchClusterName;
 	}
 
-	public void setElasticSearchCluster_name(String elasticSearchCluster_name) {
-		this.elasticSearchCluster_name = elasticSearchCluster_name;
+	public void setElasticSearchClusterName(String elasticSearchClusterName) {
+		this.elasticSearchClusterName = elasticSearchClusterName;
 	}
-	
+
 }

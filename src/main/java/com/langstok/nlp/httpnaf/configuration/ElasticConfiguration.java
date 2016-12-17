@@ -29,11 +29,11 @@ public class ElasticConfiguration {
 			LOGGER.info("elasticSearchEnabled, setup client for "
 					+ " elasticSearchHost:"+ moduleProperties.getElasticSearchHost() 
 					+ " elasticSearchPort:"+ moduleProperties.getElasticSearchPort()
-					+ " elasticSearchCluster_name:"+ moduleProperties.getElasticSearchCluster_name()  );
+					+ " elasticSearchCluster_name:"+ moduleProperties.getElasticSearchClusterName()  );
 
 			
 			Settings settings = Settings.builder()
-			        .put("cluster.name", moduleProperties.getElasticSearchCluster_name()).build();
+			        .put("cluster.name", moduleProperties.getElasticSearchClusterName()).build();
 			
 			TransportClient client = new PreBuiltTransportClient(settings)
 			        .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(
