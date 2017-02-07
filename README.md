@@ -10,24 +10,20 @@
 
 Navigate to the Spring Data Flow Local dashboard [http://localhost:9393/dashboard](http://localhost:9393/dashboard) (default)
 
-## Clone and install non public repository dependencies ##
+## Clone and local install maven dependencies* ##
 
-DBPEDIA spotlight (only for NED/Wikify modules)
-
-	https://github.com/dbpedia-spotlight/dbpedia-spotlight
+DBPEDIA spotlight (ixa-pipe-wikify dependency)
 
 	http://spotlight.sztaki.hu/downloads/dbpedia-spotlight-latest.jar
-
-	(wikify module needs dbpedia as dependency)
 	mvn install:install-file -Dfile=dbpedia-spotlight-latest.jar -DgroupId=ixa -DartifactId=dbpedia-spotlight -Dversion=0.7 -Dpackaging=jar -DgeneratePom=true
 
 
-Clone news-reader dependencies  
+NEWSREADER dependency  
 
     git clone https://github.com/ixa-ehu/ixa-pipe-wikify.git
+	mvn install -f ./ixa-pipe-wikify/pom.xml
 
-
-Clone news-reader modules (LANGSTOK adapatation)
+NEWSREADER LANGSTOK adapatations
 
     git clone https://github.com/langstok/source-http-naf
     git clone https://github.com/langstok/processor-ixa-pipe-tok
@@ -41,13 +37,6 @@ Clone news-reader modules (LANGSTOK adapatation)
     git clone https://github.com/langstok/processor-ixa-pipe-wikify
     git clone https://github.com/langstok/processor-ixa-pipe-topic
     git clone https://github.com/langstok/sink-naf-http
-
-Local install news-reader dependencies
-
-	mvn install -f ./ixa-pipe-wikify/pom.xml
-
-
-Local install applications (for correct users, not necessary after maven central upload)
 
     mvn install -f ./source-http-naf/pom.xml
     mvn install -f ./processor-ixa-pipe-tok/pom.xml
