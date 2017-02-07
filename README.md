@@ -1,4 +1,4 @@
-# LANGSTOK adapatation of the [newsreader](http://www.newsreader-project.eu/) NLP pipeline #
+# LANGSTOK adaptation of the [newsreader](http://www.newsreader-project.eu/) NLP pipeline #
 
 [news-reader](http://www.newsreader-project.eu/) modules adapted to a microservices-based distributed streaming pipeline. 
 
@@ -10,7 +10,7 @@
 
 Navigate to the Spring Data Flow Local dashboard [http://localhost:9393/dashboard](http://localhost:9393/dashboard) (default)
 
-## Clone and install dependencies  (not available in Maven Central) ##
+## Clone and install non public repository dependencies ##
 
 DBPEDIA spotlight (only for NED/Wikify modules)
 
@@ -78,7 +78,7 @@ In Spring Data Flow local server
     processor.ixa-pipe-wikify=maven://com.langstok.nlp:processor-ixa-pipe-wikify:0.0.1-SNAPSHOT
     sink.naf-http=maven://com.langstok.nlp:sink-naf-http:0.0.1-SNAPSHOT
 
-## Stream examples ##
+## Stream examples (under development) ##
 
 Create Stream (basic named entity recognition)
 
@@ -86,17 +86,13 @@ Create Stream (basic named entity recognition)
 
 Create Stream (elasticsearch example)
 
-		http-naf --elastic-search-host=192.168.178.33 --elasticSearchEnabled=true --elastic-search-type=article --elastic-search-index=articles --vcap.services.eureka-service.credentials.uri='http://192.168.178.33:8761' | naf-http --elastic-search-host=192.168.178.33 --elastic-search-type=article --elastic-search-index=articles
+	http-naf --elastic-search-host=192.168.178.33 --elasticSearchEnabled=true --elastic-search-type=article --elastic-search-index=articles --vcap.services.eureka-service.credentials.uri='http://192.168.178.33:8761' | naf-http --elastic-search-host=192.168.178.33 --elastic-search-type=article --elastic-search-index=articles
 
 Create Stream (Python call from Java, opinion miner example)
 
     http-naf | ixa-pipe-exec --directory=/cfn/opinion_miner_deluxePP/opinion_miner_deluxePP --command='python tag_file.py -d news' | naf-http
 
-Create Stream full (under development)
-
-	http-naf --elastic-search-host=192.168.178.33 --elasticSearchEnabled=true --elastic-search-type=article --elastic-search-index=articles --vcap.services.eureka-service.credentials.uri='http://192.168.178.33:8761' | ixa-pipe-tok | ixa-pipe-pos --models='/cfn/models/morph-models-1.5.0/en/en-pos-maxent-100-c5-baseline-autodict01-conll09.bin' --lemmatizermodels='/cfn/models/morph-models-1.5.0/en/en-lemma-perceptron-conll09.bin' --languages='en' | ixa-pipe-nerc --language=en --model='/cfn/models/nerc-models-1.5.4/en/combined/en-91-18-3-class-muc7-conll03-ontonotes-4.0.bin' | ixa-pipe-ned | naf-http --elastic-search-host=192.168.178.33 --elastic-search-type=article --elastic-search-index=articles
-	
-version2
+Create Stream (full)
 
 	http-naf --elastic-search-host=192.168.178.33 --elasticSearchEnabled=true --elasticSearchCluster_name='elasticsearch_sanderputs' --elastic-search-type=article --elastic-search-index=articles --vcap.services.eureka-service.credentials.uri='http://192.168.178.33:8761' --elastic-search-cluster-name=elasticsearch_sanderputs | ixa-pipe-tok | ixa-pipe-pos --models='/cfn/models/morph-models-1.5.0/en/en-pos-maxent-100-c5-baseline-autodict01-conll09.bin' --lemmatizermodels='/cfn/models/morph-models-1.5.0/en/en-lemma-perceptron-conll09.bin' --languages='en' | ixa-pipe-nerc --language=en --model='/cfn/models/nerc-models-1.5.4/en/combined/en-91-18-3-class-muc7-conll03-ontonotes-4.0.bin' --dict-path=/cfn --dict-tag=post | ixa-pipe-ned | naf-http --elastic-search-host=192.168.178.33 --elastic-search-type=article --elastic-search-index=articles --elastic-search-cluster-name=elasticsearch_sanderputs
 
@@ -107,7 +103,7 @@ version2
 
 [IXA-PIPE-NERC](https://github.com/ixa-ehu/ixa-pipe-nerc)
 
-[DBPEDIA](http://spotlight.sztaki.hu/downloads/latest_models)
+[DBPEDIA Spotlight](http://spotlight.sztaki.hu/downloads/latest_models)
 
 [HEIDELTIME](https://github.com/HeidelTime/heideltime)
 
