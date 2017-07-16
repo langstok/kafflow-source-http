@@ -31,7 +31,7 @@ eureka:
     instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
 logging:
-  file: httpnaf.log
+  file: source-http-naf.log
   level: 
     com.langstok: debug
     
