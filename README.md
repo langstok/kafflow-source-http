@@ -39,7 +39,7 @@ NEWSREADER LANGSTOK adapatations
 
     git clone https://bitbucket.org/langstok/source-http-naf
     git clone https://bitbucket.org/langstok/processor-langstok-stanford-corenlp.git
-    git clone https://bitbucket.org/langstok/processor-ixa-pipe-parse
+    git clone https://bitbucket.org/langstok/processor-ixa-pipe-parse.git
     git clone https://bitbucket.org/langstok/processor-ixa-pipe-ned.git
     git clone https://bitbucket.org/langstok/processor-ixa-pipe-wikify
     git clone https://bitbucket.org/langstok/processor-ixa-pipe-time
@@ -98,6 +98,11 @@ Create Stream (Python call from Java, opinion miner example)
 Create Stream (full)
 
 	http-naf --elastic-search-host=192.168.178.33 --elasticSearchEnabled=true --elasticSearchCluster_name='elasticsearch_sanderputs' --elastic-search-type=article --elastic-search-index=articles --vcap.services.eureka-service.credentials.uri='http://192.168.178.33:8761' --elastic-search-cluster-name=elasticsearch_sanderputs | ixa-pipe-tok | ixa-pipe-pos --models='/cfn/models/morph-models-1.5.0/en/en-pos-maxent-100-c5-baseline-autodict01-conll09.bin' --lemmatizermodels='/cfn/models/morph-models-1.5.0/en/en-lemma-perceptron-conll09.bin' --languages='en' | ixa-pipe-nerc --language=en --model='/cfn/models/nerc-models-1.5.4/en/combined/en-91-18-3-class-muc7-conll03-ontonotes-4.0.bin' --dict-path=/cfn/dict --dict-tag=post | ixa-pipe-ned | naf-http --elastic-search-host=192.168.178.33 --elastic-search-type=article --elastic-search-index=articles --elastic-search-cluster-name=elasticsearch_sanderputs
+
+Create Stream (langstok complete)
+
+	http-naf  --elastic-search-host=192.168.0.33 --elasticSearchEnabled=true --elasticSearchCluster_name='elasticsearch_sanderputs' --elastic-search-type=article --elastic-search-index=articles --vcap.services.eureka-service.credentials.uri='http://192.168.0.33:8761'
+	| langstok-stanford-corenlp | ixa-pipe-parse | ixa-pipe-ned | ixa-pipe-time | ixa-pipe-wsd-ims | ixa-pipe-srl | ixa-pipe-exec | ixa-pipe-topic | processor-vua-eventcoreference | naf-http --elastic-search-host=192.168.0.33 --elasticSearchEnabled=true --elasticSearchCluster_name='elasticsearch_sanderputs' --elastic-search-type=article --elastic-search-index=articles --vcap.services.eureka-service.credentials.uri='http://192.168.0.33:8761'
 
 
 ## Models ##
