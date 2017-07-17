@@ -101,8 +101,7 @@ Create Stream (full)
 
 Create Stream (langstok complete)
 
-	http-naf  --elastic-search-host=192.168.0.33 --elasticSearchEnabled=true --elasticSearchCluster_name='elasticsearch_sanderputs' --elastic-search-type=article --elastic-search-index=articles --vcap.services.eureka-service.credentials.uri='http://192.168.0.33:8761'
-	| langstok-stanford-corenlp | ixa-pipe-parse | ixa-pipe-ned | ixa-pipe-time | ixa-pipe-wsd-ims | ixa-pipe-srl | ixa-pipe-exec | ixa-pipe-topic | processor-vua-eventcoreference | naf-http --elastic-search-host=192.168.0.33 --elasticSearchEnabled=true --elasticSearchCluster_name='elasticsearch_sanderputs' --elastic-search-type=article --elastic-search-index=articles --vcap.services.eureka-service.credentials.uri='http://192.168.0.33:8761'
+	http-naf  --elastic-search-host=192.168.0.33 --elasticSearchEnabled=true --elasticSearchCluster_name='elasticsearch_sanderputs' --elastic-search-type=article --elastic-search-index=articles --vcap.services.eureka-service.credentials.uri='http://192.168.0.33:8761' | langstok-stanford-corenlp | ixa-pipe-parse | ixa-pipe-ned | ixa-pipe-time | ixa-pipe-wsd-ims | ixa-pipe-srl | ixa-pipe-exec | ixa-pipe-topic | processor-vua-eventcoreference | naf-http --elastic-search-host=192.168.0.33 --elasticSearchEnabled=true --elasticSearchCluster_name='elasticsearch_sanderputs' --elastic-search-type=article --elastic-search-index=articles --vcap.services.eureka-service.credentials.uri='http://192.168.0.33:8761'
 
 
 ## Models ##
