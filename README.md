@@ -35,6 +35,7 @@ install dependencies of ims_maven by following instructions
 	mvn install -f ./stanford-corenlp-naf-mapper/pom.xml
 	mvn install -f ./EventCoreference/pom.xml 
 
+
 NEWSREADER LANGSTOK adapatations
 
     git clone https://bitbucket.org/langstok/source-http-naf
@@ -75,10 +76,10 @@ In Spring Data Flow local server
 	processor.ixa-pipe-wikify=maven://com.langstok.nlp:processor-ixa-pipe-wikify:0.0.1-SNAPSHOT
     processor.ixa-pipe-time=maven://com.langstok.nlp:processor-ixa-pipe-time:0.0.1-SNAPSHOT
     processor.ixa-pipe-srl=maven://com.langstok.nlp:processor-ixa-pipe-srl:0.0.1-SNAPSHOT
-    processor.ixa-pipe-wsd-ims=maven://com.langstok.nlp:processor-ixa-pipe-wsd-ims:0.0.1-SNAPSHOT
+    processor.langstok-wsd-ims=maven://com.langstok.nlp:processor-langstok-wsd-ims:0.0.1-SNAPSHOT
     processor.ixa-pipe-exec=maven://com.langstok.nlp:processor-langstok-naf-exec:0.0.1-SNAPSHOT
-	processor.ixa-pipe-topic=maven://com.langstok.nlp:processor-langstok-ixa-pipe-topic:0.0.1-SNAPSHOT
-    processor.processor-vua-eventcoreference=maven://com.langstok.nlp:processor-vua-eventcoreference:0.0.1-SNAPSHOT
+	processor.ixa-pipe-topic=maven://com.langstok.nlp:processor-ixa-pipe-topic:0.0.1-SNAPSHOT
+    processor.vua-eventcoreference=maven://com.langstok.nlp:processor-vua-eventcoreference:0.0.1-SNAPSHOT
     sink.naf-http=maven://com.langstok.nlp:sink-naf-http:0.0.1-SNAPSHOT
 
 ## Stream examples (under development) ##
@@ -101,7 +102,7 @@ Create Stream (full)
 
 Create Stream (langstok complete)
 
-	http-naf  --elastic-search-host=192.168.0.33 --elasticSearchEnabled=true --elasticSearchCluster_name='elasticsearch_sanderputs' --elastic-search-type=article --elastic-search-index=articles --vcap.services.eureka-service.credentials.uri='http://192.168.0.33:8761' | langstok-stanford-corenlp | ixa-pipe-parse | ixa-pipe-ned | ixa-pipe-time | ixa-pipe-wsd-ims | ixa-pipe-srl | ixa-pipe-exec | ixa-pipe-topic | processor-vua-eventcoreference | naf-http --elastic-search-host=192.168.0.33 --elasticSearchEnabled=true --elasticSearchCluster_name='elasticsearch_sanderputs' --elastic-search-type=article --elastic-search-index=articles --vcap.services.eureka-service.credentials.uri='http://192.168.0.33:8761'
+	http-naf  --elastic-search-host=spmm --elasticSearchEnabled=true --elasticSearchCluster_name='elasticsearch_sanderputs' --elastic-search-type=article --elastic-search-index=articles --vcap.services.eureka-service.credentials.uri='http://spmm:8761' | langstok-stanford-corenlp | ixa-pipe-parse | ixa-pipe-ned | ixa-pipe-time | langstok-wsd-ims | ixa-pipe-srl | ixa-pipe-exec | ixa-pipe-topic | vua-eventcoreference | naf-http --elastic-search-host=spmm --elasticSearchEnabled=true --elasticSearchCluster_name='elasticsearch_sanderputs' --elastic-search-type=article --elastic-search-index=articles --vcap.services.eureka-service.credentials.uri='http://spmm:8761'
 
 
 ## Models ##
