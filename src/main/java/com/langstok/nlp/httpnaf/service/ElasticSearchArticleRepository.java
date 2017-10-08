@@ -1,14 +1,11 @@
 package com.langstok.nlp.httpnaf.service;
 
 import com.langstok.nlp.httpnaf.configuration.properties.DocumentProperties;
-import com.langstok.nlp.httpnaf.configuration.properties.ElasticProperties;
 import org.apache.log4j.Logger;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.Client;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
-
-import com.langstok.nlp.httpnaf.configuration.properties.NafProperties;
 
 import ixa.kaflib.KAFDocument;
 
@@ -34,7 +31,7 @@ public class ElasticSearchArticleRepository {
 	public KAFDocument getKAFDocumentById(String id, String lang) throws Exception{
 		
 		String index = documentProperties.getIndex();
-		if(documentProperties.isIndexLanguagePostFix())
+		if(documentProperties.isIndexLanguageSuffix())
 			index = index+"-"+lang;
 		String type = documentProperties.getType();
 		logger.debug("Get article id:" +id+" for index: "+ index +" and type: " + type);

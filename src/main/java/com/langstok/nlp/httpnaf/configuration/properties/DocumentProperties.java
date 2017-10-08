@@ -11,9 +11,9 @@ public class DocumentProperties {
     private String index;
 
     /**
-     * Enable of disable language index postfix (e.g. articles-en)
+     * Use index language suffix (e.g. articles-en)
      */
-    private boolean indexLanguagePostFix = true;
+    private boolean indexLanguageSuffix = true;
 
     /**
      * Document type in index
@@ -41,12 +41,12 @@ public class DocumentProperties {
         this.index = index;
     }
 
-    public boolean isIndexLanguagePostFix() {
-        return indexLanguagePostFix;
+    public boolean isIndexLanguageSuffix() {
+        return indexLanguageSuffix;
     }
 
-    public void setIndexLanguagePostFix(boolean indexLanguagePostFix) {
-        this.indexLanguagePostFix = indexLanguagePostFix;
+    public void setIndexLanguageSuffix(boolean indexLanguageSuffix) {
+        this.indexLanguageSuffix = indexLanguageSuffix;
     }
 
     public String getType() {
