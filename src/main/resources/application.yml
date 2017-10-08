@@ -1,25 +1,28 @@
 server:
   port: 8080
 
-elasticSearchEnabled: true
-elasticSearchHost: ${elasticsearch.host:localhost}
-elasticSearchIndex: ${elasticsearch.index:articles}
-elasticSearchType: ${elasticsearch.type:article}
+elasticsearch:
+   host: ${langstok.nlp.elasticsearch.host:localhost}
 
-elasticSearchNafMapping:
-  # author:
-  creationTime: dateRetrieved
-  # fileName:
-  # fileType:
-  language: language
-  location: outletCountry
-  magazine: outletName
-  # naf: naf
-  # pages:
-  publisher: ownerName
-  rawText: text
-  section: category
-  title: title
+document:
+   index: ${langstok.nlp.elasticsearch.index:articles}
+   type: ${langstok.nlp.elasticsearch.type:article}
+
+naf:
+   mapping:
+       # author:
+       creationTime: dateRetrieved
+       # fileName:
+       # fileType:
+       language: language
+       location: outletCountry
+       magazine: outletName
+       # naf: naf
+       # pages:
+       publisher: ownerName
+       rawText: text
+       section: category
+       title: title
 
 eureka:
  client:

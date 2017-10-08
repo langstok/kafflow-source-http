@@ -1,9 +1,11 @@
 package com.langstok.nlp.httpnaf.web.dto;
 
+import com.langstok.nlp.httpnaf.enumeration.SupportedLanguage;
+
 import java.util.Date;
 
 public class NafDto {
-	
+
 	private String author = "";
 	private String title = "";
 	private String publisher = "";
@@ -19,7 +21,7 @@ public class NafDto {
 	private String uri = "";
 	
 	private String rawText = "";
-	private String language = "";
+	private SupportedLanguage language = SupportedLanguage.en;
 	
 	private String naf;
 	
@@ -102,10 +104,10 @@ public class NafDto {
 	public void setRawText(String rawText) {
 		this.rawText = rawText;
 	}
-	public String getLanguage() {
+	public SupportedLanguage getLanguage() {
 		return language;
 	}
-	public void setLanguage(String language) {
+	public void setLanguage(SupportedLanguage language) {
 		this.language = language;
 	}
 	public String getNaf() {
