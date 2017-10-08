@@ -24,7 +24,7 @@ public class DocumentProperties {
     /**
      * Field in ElasticSearch doc to store naf (binary)
      */
-    private String fieldNaf = "naf";
+    private String fieldNaf = "kaf";
 
     /**
      * Field in ElasticSearch doc to store dateAnnotated, if null field not stored
