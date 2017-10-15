@@ -23,6 +23,7 @@ naf:
        rawText: text
        section: category
        title: title
+       uri: uri
 
 eureka:
  client:
