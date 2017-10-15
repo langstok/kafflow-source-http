@@ -12,17 +12,6 @@ Navigate to the Spring Data Flow Local dashboard [http://localhost:9393/dashboar
 
 ## Clone and local install maven dependencies* ##
 
-DBPEDIA spotlight (ixa-pipe-wikify dependency)
-
-	http://spotlight.sztaki.hu/downloads/dbpedia-spotlight-latest.jar
-	mvn install:install-file -Dfile=dbpedia-spotlight-latest.jar -DgroupId=ixa -DartifactId=dbpedia-spotlight -Dversion=0.7 -Dpackaging=jar -DgeneratePom=true
-
-
-NEWSREADER dependency  
-
-    git clone https://github.com/ixa-ehu/ixa-pipe-wikify.git
-	mvn install -f ./ixa-pipe-wikify/pom.xml
-
 LANGSTOK dependencies
 
 	git clone https://github.com/langstok/ims_maven.git
@@ -84,26 +73,13 @@ In Spring Data Flow local server
 
 ## Stream examples (under development) ##
 
-Create Stream (basic named entity recognition)
-
-	http-naf | ixa-pipe-tok | ixa-pipe-pos --languages='en' --models='/cfn/models/morph-models-1.5.0/en/en-pos-maxent-100-c5-baseline-autodict01-conll09.bin' --lemmatizermodels='/cfn/models/morph-models-1.5.0/en/en-lemma-perceptron-conll09.bin' | ixa-pipe-nercnaf-http 
-
-Create Stream (elasticsearch example)
-
-	http-naf --elastic-search-host=192.168.178.33 --elasticSearchEnabled=true --elastic-search-type=article --elastic-search-index=articles --vcap.services.eureka-service.credentials.uri='http://192.168.178.33:8761' | naf-http --elastic-search-host=192.168.178.33 --elastic-search-type=article --elastic-search-index=articles
-
-Create Stream (Python call from Java, opinion miner example)
-
-    http-naf | ixa-pipe-exec --directory=/cfn/opinion_miner_deluxePP/opinion_miner_deluxePP --command='python tag_file.py -d news' | naf-http
-
-Create Stream (full)
+Create Stream (IXA tok,pos,nerc,ned)
 
 	http-naf --elastic-search-host=192.168.178.33 --elasticSearchEnabled=true --elasticSearchCluster_name='elasticsearch_sanderputs' --elastic-search-type=article --elastic-search-index=articles --vcap.services.eureka-service.credentials.uri='http://192.168.178.33:8761' --elastic-search-cluster-name=elasticsearch_sanderputs | ixa-pipe-tok | ixa-pipe-pos --models='/cfn/models/morph-models-1.5.0/en/en-pos-maxent-100-c5-baseline-autodict01-conll09.bin' --lemmatizermodels='/cfn/models/morph-models-1.5.0/en/en-lemma-perceptron-conll09.bin' --languages='en' | ixa-pipe-nerc --language=en --model='/cfn/models/nerc-models-1.5.4/en/combined/en-91-18-3-class-muc7-conll03-ontonotes-4.0.bin' --dict-path=/cfn/dict --dict-tag=post | ixa-pipe-ned | naf-http --elastic-search-host=192.168.178.33 --elastic-search-type=article --elastic-search-index=articles --elastic-search-cluster-name=elasticsearch_sanderputs
 
-Create Stream (langstok complete)
+Create Stream (langstok English)
 
-	http-naf  --elastic-search-host=spmm --elasticSearchEnabled=true --elasticSearchCluster_name='elasticsearch_sanderputs' --elastic-search-type=article --elastic-search-index=articles --vcap.services.eureka-service.credentials.uri='http://spmm:8761' | langstok-stanford-corenlp | ixa-pipe-parse | ixa-pipe-ned | ixa-pipe-time | langstok-wsd-ims | ixa-pipe-srl | ixa-pipe-exec | ixa-pipe-topic | vua-eventcoreference | naf-http --elastic-search-host=spmm --elasticSearchEnabled=true --elasticSearchCluster_name='elasticsearch_sanderputs' --elastic-search-type=article --elastic-search-index=articles --vcap.services.eureka-service.credentials.uri='http://spmm:8761'
-
+    http-naf --vcap.services.eureka-service.credentials.uri='http://spmm:8761' --host=spmm --cluster-name=elasticsearch_cfncfn | langstok-stanford-corenlp | ixa-pipe-parse | ixa-pipe-ned | ixa-pipe-time | langstok-wsd-ims | ixa-pipe-srl | ixa-pipe-exec --process-directory=/cfn/opinion_miner_deluxePP/opinion_miner_deluxePP | ixa-pipe-topic | vua-eventcoreference | naf-http --vcap.services.eureka-service.credentials.uri='http://spmm:8761' --host=spmm --cluster-name=elasticsearch_cfncfn
 
 ## Models ##
 
