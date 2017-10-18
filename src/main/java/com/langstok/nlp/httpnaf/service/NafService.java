@@ -128,7 +128,7 @@ public class NafService {
 			dto.setPublisher(node.get(nafMapping.get(PUBLISHER)).asText());
 		}
 		if (nafMapping.containsKey(RAWTEXT) && node.has(nafMapping.get(RAWTEXT))) {
-			dto.setRawText(node.get(nafMapping.get(RAWTEXT)).asText());
+			dto.setRawText(node.get(nafMapping.get(RAWTEXT)).textValue());
 		}
 		if (nafMapping.containsKey(SECTION) && node.has(nafMapping.get(SECTION))) {
 			dto.setSection(node.get(nafMapping.get(SECTION)).asText());
