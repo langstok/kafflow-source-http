@@ -23,7 +23,7 @@ public class NafDto {
 	private String rawText = "";
 	private SupportedLanguage language = SupportedLanguage.en;
 	
-	private String naf;
+	private String kaf;
 	
 	public String getAuthor() {
 		return author;
@@ -110,11 +110,11 @@ public class NafDto {
 	public void setLanguage(SupportedLanguage language) {
 		this.language = language;
 	}
-	public String getNaf() {
-		return naf;
+	public String getKaf() {
+		return kaf;
 	}
-	public void setNaf(String naf) {
-		this.naf = naf;
+	public void setKaf(String kaf) {
+		this.kaf = kaf;
 	}
 	
 }

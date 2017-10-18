@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
@@ -34,7 +33,7 @@ public class NafService {
 	public static final String LANGUAGE = "language";
 	public static final String LOCATION = "location";
 	public static final String MAGAZINE = "magazine";
-	public static final String NAF = "naf";
+	public static final String KAF = "kaf";
 	public static final String PAGES = "pages";
 	public static final String PUBLISHER = "publisher";
 	public static final String RAWTEXT = "rawText";
@@ -59,13 +58,13 @@ public class NafService {
 
 
 
-	public KAFDocument create(NafDto dto) throws UnsupportedEncodingException, IOException, JDOMException {
+	public KAFDocument create(NafDto dto) throws IOException, JDOMException {
 
 		KAFDocument document = null;
 
-		if(dto.getNaf()!=null && !dto.getNaf().isEmpty()){
-			if(logger.isDebugEnabled()) logger.debug("NAF nr of lines: " + countLines(dto.getNaf()));
-			document = KAFDocument.createFromStream( new StringReader(dto.getNaf()));
+		if(dto.getKaf()!=null && !dto.getKaf().isEmpty()){
+			if(logger.isDebugEnabled()) logger.debug("KAF nr of lines: " + countLines(dto.getKaf()));
+			document = KAFDocument.createFromStream( new StringReader(dto.getKaf()));
 		}
 		else{
 			document = new KAFDocument(dto.getLanguage().name(), NAFVERSION);
@@ -119,8 +118,8 @@ public class NafService {
 		if (nafMapping.containsKey(MAGAZINE) && node.has(nafMapping.get(MAGAZINE))) {
 			dto.setMagazine(node.get(nafMapping.get(MAGAZINE)).asText());
 		}
-		if (nafMapping.containsKey(NAF) && node.has(nafMapping.get(NAF))) {
-			dto.setNaf(node.get(nafMapping.get(NAF)).asText());
+		if (nafMapping.containsKey(KAF) && node.has(nafMapping.get(KAF))) {
+			dto.setKaf(node.get(nafMapping.get(KAF)).asText());
 		}
 		if (nafMapping.containsKey(PAGES) && node.has(nafMapping.get(PAGES))) {
 			dto.setPages(node.get(nafMapping.get(PAGES)).asInt());
