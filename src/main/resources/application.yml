@@ -12,7 +12,7 @@ naf:
    mapping:
        # author:
        creationTime: dateRetrieved
-       # fileName:
+       fileName: url
        # fileType:
        language: language
        location: outletCountry

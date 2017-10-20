@@ -41,6 +41,10 @@ public class NafService {
 	public static final String TITLE = "title";
 	public static final String URI = "uri";
 
+	public static final String FILE_TYPE_HTTP = "HTTP";
+
+
+
 	private static final String NAFVERSION = "v1.naf";
 	private SimpleDateFormat dateFormat;
 
@@ -84,14 +88,14 @@ public class NafService {
 			document.getFileDesc().author = dto.getAuthor();
 			document.getFileDesc().pages = dto.getPages();
 			document.getFileDesc().filename = dto.getFilename();
-			document.getFileDesc().filetype = dto.getFiletype();
+			document.getFileDesc().filetype = FILE_TYPE_HTTP;
 		}
 
 		logger.info("KAFDocument received (publicId / uri): " + document.getPublic().publicId + " / " + document.getPublic().uri);
 		return document;
 	}
 
-	public NafDto mapArticleDocumentResponse(GetResponse response) throws JsonParseException, JsonMappingException, IOException{
+	public NafDto mapArticleDocumentResponse(GetResponse response) throws IOException{
 
 		final ObjectNode node = new ObjectMapper().readValue(response.getSourceAsString(), ObjectNode.class);
 		NafDto dto = new NafDto();
@@ -127,14 +131,18 @@ public class NafService {
 		if (nafMapping.containsKey(PUBLISHER) && node.has(nafMapping.get(PUBLISHER))) {
 			dto.setPublisher(node.get(nafMapping.get(PUBLISHER)).asText());
 		}
-		if (nafMapping.containsKey(RAWTEXT) && node.has(nafMapping.get(RAWTEXT))) {
-			dto.setRawText(node.get(nafMapping.get(RAWTEXT)).textValue());
-		}
 		if (nafMapping.containsKey(SECTION) && node.has(nafMapping.get(SECTION))) {
 			dto.setSection(node.get(nafMapping.get(SECTION)).asText());
 		}
 		if (nafMapping.containsKey(TITLE) && node.has(nafMapping.get(TITLE))) {
 			dto.setTitle(node.get(nafMapping.get(TITLE)).asText());
+		}
+		if(nafMapping.containsKey(RAWTEXT) && node.has(nafMapping.get(RAWTEXT))) {
+			String text = node.get(nafMapping.get(RAWTEXT)).textValue();
+			if(nafProperties.isAddTitleToText())
+				dto.setRawText(mergeTitle(dto.getTitle(), text));
+			else
+				dto.setRawText(text);
 		}
 		if (nafMapping.containsKey(URI) && node.has(nafMapping.get(URI))) {
 			dto.setUri(node.get(nafMapping.get(URI)).asText());
@@ -146,4 +154,8 @@ public class NafService {
 		   String[] lines = str.split("\r\n|\r|\n");
 		   return  lines.length;
 		}
+
+	private static String mergeTitle(String title, String rawText){
+		return title +System.lineSeparator()+ rawText;
+	}
 }

@@ -15,6 +15,11 @@ public class NafProperties {
 
 
 	/**
+	 * Add title to text, when stored in seperate field
+	 */
+	private boolean addTitleToText = true;
+
+	/**
 	 * Mapping between elasticsearch document and KAFDocument, for KAFDocument creation
 	 */
 	private Map<String, String> mapping = new HashMap<>();
@@ -34,6 +39,14 @@ public class NafProperties {
 
 	public void setMapping(Map<String, String> mapping) {
 		this.mapping = mapping;
+	}
+
+	public boolean isAddTitleToText() {
+		return addTitleToText;
+	}
+
+	public void setAddTitleToText(boolean addTitleToText) {
+		this.addTitleToText = addTitleToText;
 	}
 
 	@Override
