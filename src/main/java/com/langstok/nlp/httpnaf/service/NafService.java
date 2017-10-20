@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.langstok.nlp.httpnaf.configuration.properties.NafProperties;
 import com.langstok.nlp.httpnaf.enumeration.SupportedLanguage;
+import com.langstok.nlp.httpnaf.repository.ArticleDocumentRepository;
 import com.langstok.nlp.httpnaf.web.dto.NafDto;
 import ixa.kaflib.KAFDocument;
 import org.apache.log4j.Logger;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
@@ -49,12 +51,15 @@ public class NafService {
 	private SimpleDateFormat dateFormat;
 
 	private NafProperties nafProperties;
+	private ArticleDocumentRepository articleDocumentRepository;
 
 
 	private Map<String,String> nafMapping;
 
-	public NafService(NafProperties nafProperties) {
+	public NafService(ArticleDocumentRepository articleDocumentRepository, NafProperties nafProperties) {
 		logger.info("Init naf service: " + nafProperties);
+		this.articleDocumentRepository = articleDocumentRepository;
+
 		this.nafProperties = nafProperties;
 		this.dateFormat = new SimpleDateFormat(nafProperties.getCreationDateFormat());
 		this.nafMapping = nafProperties.getMapping();
@@ -157,5 +162,9 @@ public class NafService {
 
 	private static String mergeTitle(String title, String rawText){
 		return title +System.lineSeparator()+ rawText;
+	}
+
+	public Path getKaf(String id, SupportedLanguage language) throws IOException {
+		return articleDocumentRepository.getKaf(id,language);
 	}
 }

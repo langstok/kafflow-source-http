@@ -58,28 +58,17 @@ NEWSREADER LANGSTOK adapatations
 
 In Spring Data Flow local server
 
-    source.http-naf=maven://com.langstok.nlp:source-http-naf:0.0.1-SNAPSHOT
-    processor.langstok-stanford-corenlp=maven://com.langstok.nlp:processor-langstok-stanford-corenlp:0.0.1-SNAPSHOT
-	processor.ixa-pipe-parse=maven://com.langstok.nlp:processor-ixa-pipe-parse:0.0.1-SNAPSHOT
-    processor.ixa-pipe-ned=maven://com.langstok.nlp:processor-ixa-pipe-ned:0.0.1-SNAPSHOT
-	processor.ixa-pipe-wikify=maven://com.langstok.nlp:processor-ixa-pipe-wikify:0.0.1-SNAPSHOT
-    processor.ixa-pipe-time=maven://com.langstok.nlp:processor-ixa-pipe-time:0.0.1-SNAPSHOT
-    processor.ixa-pipe-srl=maven://com.langstok.nlp:processor-ixa-pipe-srl:0.0.1-SNAPSHOT
-    processor.langstok-wsd-ims=maven://com.langstok.nlp:processor-langstok-wsd-ims:0.0.1-SNAPSHOT
-    processor.ixa-pipe-exec=maven://com.langstok.nlp:processor-langstok-naf-exec:0.0.1-SNAPSHOT
-	processor.ixa-pipe-topic=maven://com.langstok.nlp:processor-ixa-pipe-topic:0.0.1-SNAPSHOT
-    processor.vua-eventcoreference=maven://com.langstok.nlp:processor-vua-eventcoreference:0.0.1-SNAPSHOT
-    sink.naf-http=maven://com.langstok.nlp:sink-naf-http:0.0.1-SNAPSHOT
+   bulk import [bulkimportapp.properties](http://sanderputs.com/stream/bulkimportapp.properties)
 
 ## Stream examples ##
 
-Create Stream (IXA tok,pos,nerc,ned)
+Create Stream (old) (IXA tok,pos,nerc,ned)
 
 	http-naf --elastic-search-host=192.168.178.33 --elasticSearchEnabled=true --elasticSearchCluster_name='elasticsearch_sanderputs' --elastic-search-type=article --elastic-search-index=articles --vcap.services.eureka-service.credentials.uri='http://192.168.178.33:8761' --elastic-search-cluster-name=elasticsearch_sanderputs | ixa-pipe-tok | ixa-pipe-pos --models='/cfn/models/morph-models-1.5.0/en/en-pos-maxent-100-c5-baseline-autodict01-conll09.bin' --lemmatizermodels='/cfn/models/morph-models-1.5.0/en/en-lemma-perceptron-conll09.bin' --languages='en' | ixa-pipe-nerc --language=en --model='/cfn/models/nerc-models-1.5.4/en/combined/en-91-18-3-class-muc7-conll03-ontonotes-4.0.bin' --dict-path=/cfn/dict --dict-tag=post | ixa-pipe-ned | naf-http --elastic-search-host=192.168.178.33 --elastic-search-type=article --elastic-search-index=articles --elastic-search-cluster-name=elasticsearch_sanderputs
 
 Create Stream (langstok English)
 
-    http-naf | langstok-stanford-corenlp | ixa-pipe-parse | ixa-pipe-ned | ixa-pipe-time | langstok-wsd-ims | ixa-pipe-srl | ixa-pipe-exec --logging.level.com.langstok=debug | ixa-pipe-topic | vua-eventcoreference --sem='false' | naf-http
+    http-naf --vcap.services.eureka-service.credentials.uri='http://spmm:8761' --host=spmm --cluster-name=elasticsearch_cfncfn | langstok-stanford-corenlp | ixa-pipe-parse | ixa-pipe-ned | ixa-pipe-time | langstok-wsd-ims | ixa-pipe-srl | ixa-pipe-exec --logging.level.com.langstok=debug | ixa-pipe-topic | vua-eventcoreference | naf-http --vcap.services.eureka-service.credentials.uri='http://spmm:8761' --host=spmm --cluster-name=elasticsearch_cfncfn
 
 ## Models ##
 

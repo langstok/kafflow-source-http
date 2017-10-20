@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.langstok.nlp.httpnaf.configuration.HttpNafSourceConfiguration;
-import com.langstok.nlp.httpnaf.service.ElasticSearchArticleRepository;
+import com.langstok.nlp.httpnaf.repository.ArticleDocumentRepository;
 
 import ixa.kaflib.KAFDocument;
 
@@ -16,11 +16,11 @@ import ixa.kaflib.KAFDocument;
 @RequestMapping(value="/api")
 public class ElasticSearchController {
 	
-	private ElasticSearchArticleRepository elasticSearchArticleRepository;
+	private ArticleDocumentRepository articleDocumentRepository;
 	private HttpNafSourceConfiguration httpNafSourceConfiguration;
 
-	public ElasticSearchController(ElasticSearchArticleRepository elasticSearchArticleRepository, HttpNafSourceConfiguration httpNafSourceConfiguration) {
-		this.elasticSearchArticleRepository = elasticSearchArticleRepository;
+	public ElasticSearchController(ArticleDocumentRepository articleDocumentRepository, HttpNafSourceConfiguration httpNafSourceConfiguration) {
+		this.articleDocumentRepository = articleDocumentRepository;
 		this.httpNafSourceConfiguration = httpNafSourceConfiguration;
 	}
 
@@ -29,7 +29,7 @@ public class ElasticSearchController {
 			@RequestParam String id,
 			@RequestParam(required=false, defaultValue="en") String lang
 			) throws Exception {
-		KAFDocument kaf = elasticSearchArticleRepository.getKAFDocumentById(id, lang);
+		KAFDocument kaf = articleDocumentRepository.getKAFDocumentById(id, lang);
 		httpNafSourceConfiguration.sendMessage(kaf, ContentType.APPLICATION_JSON);
 		return ResponseEntity.ok(kaf.toString());
 	} 

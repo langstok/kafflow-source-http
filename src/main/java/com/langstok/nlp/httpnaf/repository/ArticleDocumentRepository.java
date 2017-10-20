@@ -1,7 +1,10 @@
-package com.langstok.nlp.httpnaf.service;
+package com.langstok.nlp.httpnaf.repository;
 
 import com.langstok.nlp.httpnaf.configuration.properties.DocumentProperties;
+import com.langstok.nlp.httpnaf.enumeration.SupportedLanguage;
+import com.langstok.nlp.httpnaf.service.NafService;
 import org.apache.log4j.Logger;
+import org.elasticsearch.action.get.GetRequestBuilder;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.Client;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -9,12 +12,19 @@ import org.springframework.stereotype.Service;
 
 import ixa.kaflib.KAFDocument;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Base64;
+import java.util.Map;
+
 
 @Service
 @EnableConfigurationProperties(DocumentProperties.class)
-public class ElasticSearchArticleRepository {
+public class ArticleDocumentRepository {
 
-	private final static Logger logger = Logger.getLogger(ElasticSearchArticleRepository.class);
+	private final static Logger logger = Logger.getLogger(ArticleDocumentRepository.class);
 
 	private Client client;
 	private NafService nafService;
@@ -22,7 +32,7 @@ public class ElasticSearchArticleRepository {
 	private DocumentProperties documentProperties;
 
 
-	public ElasticSearchArticleRepository(Client client, NafService nafService, DocumentProperties documentProperties) {
+	public ArticleDocumentRepository(Client client, NafService nafService, DocumentProperties documentProperties) {
 		this.client = client;
 		this.nafService = nafService;
 		this.documentProperties = documentProperties;
@@ -43,4 +53,14 @@ public class ElasticSearchArticleRepository {
 		return nafService.create(nafService.mapArticleDocumentResponse(response));
 	}
 
+	public Path getKaf(String id, SupportedLanguage language) throws IOException {
+		GetRequestBuilder get = client.prepareGet()
+				.setIndex("articles-"+language.name())
+				.setId(id);
+		Map<String, Object> map = get.get().getSourceAsMap();
+		byte[] data = Base64.getDecoder().decode((String)map.get("kaf"));
+		Path path = Paths.get("./kaf.xml");
+		Files.write(path, data);
+		return path;
+	}
 }
