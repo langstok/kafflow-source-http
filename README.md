@@ -71,7 +71,7 @@ In Spring Data Flow local server
     processor.vua-eventcoreference=maven://com.langstok.nlp:processor-vua-eventcoreference:0.0.1-SNAPSHOT
     sink.naf-http=maven://com.langstok.nlp:sink-naf-http:0.0.1-SNAPSHOT
 
-## Stream examples (under development) ##
+## Stream examples ##
 
 Create Stream (IXA tok,pos,nerc,ned)
 
@@ -79,7 +79,7 @@ Create Stream (IXA tok,pos,nerc,ned)
 
 Create Stream (langstok English)
 
-    http-naf --vcap.services.eureka-service.credentials.uri='http://spmm:8761' --host=spmm --cluster-name=elasticsearch_cfncfn | langstok-stanford-corenlp | ixa-pipe-parse | ixa-pipe-ned | ixa-pipe-time | langstok-wsd-ims | ixa-pipe-srl | ixa-pipe-exec --process-directory='/cfn/opinion_miner_deluxePP/opinion_miner_deluxePP' | ixa-pipe-topic | vua-eventcoreference | naf-http --vcap.services.eureka-service.credentials.uri='http://spmm:8761' --host=spmm --cluster-name=elasticsearch_cfncfn
+    http-naf --vcap.services.eureka-service.credentials.uri='http://spmm:8761' --host=spmm --cluster-name=elasticsearch_cfncfn | langstok-stanford-corenlp | ixa-pipe-parse | ixa-pipe-ned | ixa-pipe-time | langstok-wsd-ims | ixa-pipe-srl | ixa-pipe-exec --logging.level.com.langstok=debug | ixa-pipe-topic | vua-eventcoreference | naf-http --vcap.services.eureka-service.credentials.uri='http://spmm:8761' --host=spmm --cluster-name=elasticsearch_cfncfn
 
 ## Models ##
 

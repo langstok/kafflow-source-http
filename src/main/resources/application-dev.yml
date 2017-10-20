@@ -1,0 +1,3 @@
+processor.enabled: false
+elasticsearch:
+   host: ${langstok.nlp.elasticsearch.host:spmm}

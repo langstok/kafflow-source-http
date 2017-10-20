@@ -6,6 +6,7 @@ import java.util.Collections;
 
 import org.jdom2.JDOMException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.http.HttpHeaders;
@@ -44,14 +45,6 @@ public class HttpNafSourceConfiguration {
 	@Autowired
 	private NafService nafService;
 
-	
-	@RequestMapping(path = "${http.pathPattern:/api/naf}", method = RequestMethod.POST, consumes = "*/*")
-	@ResponseStatus(HttpStatus.ACCEPTED)
-	public void handleRequest(
-			@RequestBody NafDto body, 
-			@RequestHeader(HttpHeaders.CONTENT_TYPE) Object contentType) throws UnsupportedEncodingException, IOException, JDOMException {
-		sendMessage(nafService.create(body), contentType);
-	}
 
 	public void sendMessage(KAFDocument kafDocument, Object contentType) {
 		channels.output().send(MessageBuilder.createMessage(kafDocument,

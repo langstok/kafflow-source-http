@@ -8,11 +8,14 @@ import org.apache.http.entity.ContentType;
 import org.jdom2.JDOMException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
-@RestController("/api")
+@RestController
+@RequestMapping("/api")
 public class NafController {
 
     private HttpNafSourceConfiguration httpNafSourceConfiguration;
@@ -26,7 +29,7 @@ public class NafController {
     }
 
     @PostMapping("/naf")
-    public ResponseEntity<String> createDocument(NafDto dto) throws IOException, JDOMException {
+    public ResponseEntity<String> createDocument(@RequestBody NafDto dto) throws IOException, JDOMException {
         KAFDocument kaf = nafService.create(dto);
         httpNafSourceConfiguration.sendMessage(kaf, ContentType.APPLICATION_JSON);
         return ResponseEntity.ok(kaf.toString());
