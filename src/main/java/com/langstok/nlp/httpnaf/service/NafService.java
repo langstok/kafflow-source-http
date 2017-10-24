@@ -171,6 +171,6 @@ public class NafService {
 
 
 	public KAFDocument getKAFDocumentById(String id, String lang) throws Exception {
-		return mapArticleDocumentResponse(articleDocumentRepository.getKAFDocumentById(id,lang));
+		return create(mapArticleDocumentResponse(articleDocumentRepository.getKAFDocumentById(id,lang)));
 	}
 }
