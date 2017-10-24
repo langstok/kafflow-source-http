@@ -167,4 +167,10 @@ public class NafService {
 	public Path getKaf(String id, SupportedLanguage language) throws IOException {
 		return articleDocumentRepository.getKaf(id,language);
 	}
+
+
+
+	public KAFDocument getKAFDocumentById(String id, String lang) throws Exception {
+		return mapArticleDocumentResponse(articleDocumentRepository.getKAFDocumentById(id,lang));
+	}
 }

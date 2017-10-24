@@ -27,18 +27,16 @@ public class ArticleDocumentRepository {
 	private final static Logger logger = Logger.getLogger(ArticleDocumentRepository.class);
 
 	private Client client;
-	private NafService nafService;
 
 	private DocumentProperties documentProperties;
 
 
 	public ArticleDocumentRepository(Client client, NafService nafService, DocumentProperties documentProperties) {
 		this.client = client;
-		this.nafService = nafService;
 		this.documentProperties = documentProperties;
 	}
 
-	public KAFDocument getKAFDocumentById(String id, String lang) throws Exception{
+	public GetResponse getKAFDocumentById(String id, String lang) throws Exception{
 		
 		String index = documentProperties.getIndex();
 		if(documentProperties.isIndexLanguageSuffix())
@@ -50,7 +48,7 @@ public class ArticleDocumentRepository {
 		if(response.getSourceAsString()==null) 
 			throw new Exception("document not found");
 		
-		return nafService.create(nafService.mapArticleDocumentResponse(response));
+		return response;
 	}
 
 	public Path getKaf(String id, SupportedLanguage language) throws IOException {

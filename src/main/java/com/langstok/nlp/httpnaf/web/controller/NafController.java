@@ -39,10 +39,10 @@ public class NafController {
         return ResponseEntity.ok(kaf.toString());
     }
 
-    @GetMapping(value="/kaf")
-    public void downloadSynonymsDict(@RequestParam String id,
-                                     @RequestParam(defaultValue = "en") SupportedLanguage language,
-                                     HttpServletResponse response) throws Exception{
+    @GetMapping(value="/naf")
+    public void getKaf(@RequestParam String id,
+                       @RequestParam(defaultValue = "en") SupportedLanguage language,
+                       HttpServletResponse response) throws Exception{
         response.setContentType("application/x-download");
         response.setHeader("Content-disposition", "attachment; filename=kaf.xml");
         writeToResponse(response, nafService.getKaf(id, language));
