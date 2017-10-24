@@ -2,7 +2,6 @@ package com.langstok.nlp.httpnaf.web.controller;
 
 import com.langstok.nlp.httpnaf.configuration.HttpNafSourceConfiguration;
 import com.langstok.nlp.httpnaf.enumeration.SupportedLanguage;
-import com.langstok.nlp.httpnaf.repository.ArticleDocumentRepository;
 import com.langstok.nlp.httpnaf.service.NafService;
 import com.langstok.nlp.httpnaf.web.dto.NafDto;
 import ixa.kaflib.KAFDocument;

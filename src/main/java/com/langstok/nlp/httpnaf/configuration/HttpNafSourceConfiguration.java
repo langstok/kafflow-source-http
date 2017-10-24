@@ -41,10 +41,6 @@ public class HttpNafSourceConfiguration {
 
 	@Autowired
 	private Source channels;
-	
-	@Autowired
-	private NafService nafService;
-
 
 	public void sendMessage(KAFDocument kafDocument, Object contentType) {
 		channels.output().send(MessageBuilder.createMessage(kafDocument,

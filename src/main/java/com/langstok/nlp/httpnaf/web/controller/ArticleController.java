@@ -14,18 +14,18 @@ import ixa.kaflib.KAFDocument;
 
 @RestController
 @RequestMapping(value="/api")
-public class ElasticSearchController {
+public class ArticleController {
 	
 	private NafService nafService;
 	private HttpNafSourceConfiguration httpNafSourceConfiguration;
 
-	public ElasticSearchController(NafService nafService, HttpNafSourceConfiguration httpNafSourceConfiguration) {
+	public ArticleController(NafService nafService, HttpNafSourceConfiguration httpNafSourceConfiguration) {
 		this.nafService = nafService;
 		this.httpNafSourceConfiguration = httpNafSourceConfiguration;
 	}
 
-	@RequestMapping(value="/elasticsearch", method = RequestMethod.GET)
-	public ResponseEntity<String> processDocument(
+	@RequestMapping(value="/article/annotate", method = RequestMethod.GET)
+	public ResponseEntity<String> annotateArticle(
 			@RequestParam String id,
 			@RequestParam(required=false, defaultValue="en") String lang
 			) throws Exception {

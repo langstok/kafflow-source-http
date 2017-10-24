@@ -2,15 +2,12 @@ package com.langstok.nlp.httpnaf.repository;
 
 import com.langstok.nlp.httpnaf.configuration.properties.DocumentProperties;
 import com.langstok.nlp.httpnaf.enumeration.SupportedLanguage;
-import com.langstok.nlp.httpnaf.service.NafService;
 import org.apache.log4j.Logger;
 import org.elasticsearch.action.get.GetRequestBuilder;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.Client;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
-
-import ixa.kaflib.KAFDocument;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,16 +19,16 @@ import java.util.Map;
 
 @Service
 @EnableConfigurationProperties(DocumentProperties.class)
-public class ArticleDocumentRepository {
+public class ArticleRepository {
 
-	private final static Logger logger = Logger.getLogger(ArticleDocumentRepository.class);
+	private final static Logger logger = Logger.getLogger(ArticleRepository.class);
 
 	private Client client;
 
 	private DocumentProperties documentProperties;
 
 
-	public ArticleDocumentRepository(Client client, NafService nafService, DocumentProperties documentProperties) {
+	public ArticleRepository(Client client, DocumentProperties documentProperties) {
 		this.client = client;
 		this.documentProperties = documentProperties;
 	}

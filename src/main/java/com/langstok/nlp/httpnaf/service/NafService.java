@@ -1,12 +1,10 @@
 package com.langstok.nlp.httpnaf.service;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.langstok.nlp.httpnaf.configuration.properties.NafProperties;
 import com.langstok.nlp.httpnaf.enumeration.SupportedLanguage;
-import com.langstok.nlp.httpnaf.repository.ArticleDocumentRepository;
+import com.langstok.nlp.httpnaf.repository.ArticleRepository;
 import com.langstok.nlp.httpnaf.web.dto.NafDto;
 import ixa.kaflib.KAFDocument;
 import org.apache.log4j.Logger;
@@ -51,14 +49,14 @@ public class NafService {
 	private SimpleDateFormat dateFormat;
 
 	private NafProperties nafProperties;
-	private ArticleDocumentRepository articleDocumentRepository;
+	private ArticleRepository articleRepository;
 
 
 	private Map<String,String> nafMapping;
 
-	public NafService(ArticleDocumentRepository articleDocumentRepository, NafProperties nafProperties) {
+	public NafService(ArticleRepository articleRepository, NafProperties nafProperties) {
 		logger.info("Init naf service: " + nafProperties);
-		this.articleDocumentRepository = articleDocumentRepository;
+		this.articleRepository = articleRepository;
 
 		this.nafProperties = nafProperties;
 		this.dateFormat = new SimpleDateFormat(nafProperties.getCreationDateFormat());
@@ -165,12 +163,12 @@ public class NafService {
 	}
 
 	public Path getKaf(String id, SupportedLanguage language) throws IOException {
-		return articleDocumentRepository.getKaf(id,language);
+		return articleRepository.getKaf(id,language);
 	}
 
 
 
 	public KAFDocument getKAFDocumentById(String id, String lang) throws Exception {
-		return create(mapArticleDocumentResponse(articleDocumentRepository.getKAFDocumentById(id,lang)));
+		return create(mapArticleDocumentResponse(articleRepository.getKAFDocumentById(id,lang)));
 	}
 }

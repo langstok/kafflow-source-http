@@ -16,13 +16,13 @@ import java.net.UnknownHostException;
 
 @Configuration
 @EnableConfigurationProperties(ElasticProperties.class)
-public class ElasticConfiguration {
+public class ElasticSearchConfiguration {
 
-	private final static Logger logger = Logger.getLogger(ElasticConfiguration.class);
+	private final static Logger logger = Logger.getLogger(ElasticSearchConfiguration.class);
 
 	private final ElasticProperties elasticProperties;
 
-	public ElasticConfiguration(ElasticProperties elasticProperties){
+	public ElasticSearchConfiguration(ElasticProperties elasticProperties){
 		this.elasticProperties = elasticProperties;
 	}
 
