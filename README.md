@@ -58,7 +58,7 @@ NEWSREADER LANGSTOK adapatations
 
 In Spring Data Flow local server
 
-   bulk import [bulkimportapp.properties](http://sanderputs.com/stream/bulkimportapp.properties)
+   bulk import [bulkimportapp.properties](bulkimportapp.properties)
 
 ## Stream examples ##
 
@@ -104,16 +104,12 @@ Without max memory settings, the modules use (on a 16GB + swap machine):
     ned 314
     source 609 
 
-To prevent JAVA using the SWAP the following deployment properties for memory usage are recommended:
+To prevent JAVA using the SWAP the following [deployment properties](deployment.properties) for memory usage are recommended.
 
-    deployer.langstok-stanford-corenlp.local.javaOpts=-Xmx4000m
-    deployer.http-naf.local.javaOpts=-Xmx500m
-    deployer.ixa-pipe-parse.local.javaOpts=-Xmx800m 
-    deployer.ixa-pipe-ned.local.javaOpts=-Xmx400m
-    deployer.ixa-pipe-time.local.javaOpts=-Xmx400m
-    deployer.langstok-wsd-ims.local.javaOpts=-Xmx400m
-    deployer.ixa-pipe-srl.local.javaOpts=-Xmx2000m
-    deployer.ixa-pipe-exec.local.javaOpts=-Xmx400m 
-    deployer.ixa-pipe-topic.local.javaOpts=-Xmx400m
-    deployer.vua-eventcoreference.local.javaOpts=-Xmx1000m
-    deployer.naf-http.local.javaOpts=-Xmx500m
+## Kafka max message size ##
+Provide the following argument to stream local server to set the max message size to 3Mb.
+    
+    --spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.configuration.max.request.size=3000000
+
+## Logging ##
+To use Elastic stack for log analysis set the log dir.
