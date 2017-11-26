@@ -62,14 +62,18 @@ In Spring Data Flow local server
 
 ## Stream examples ##
 
-Create Stream (old) (IXA tok,pos,nerc,ned)
+Create Stream (deprecated) (IXA tok,pos,nerc,ned)
 
 	http-naf --elastic-search-host=192.168.178.33 --elasticSearchEnabled=true --elasticSearchCluster_name='elasticsearch_sanderputs' --elastic-search-type=article --elastic-search-index=articles --vcap.services.eureka-service.credentials.uri='http://192.168.178.33:8761' --elastic-search-cluster-name=elasticsearch_sanderputs | ixa-pipe-tok | ixa-pipe-pos --models='/cfn/models/morph-models-1.5.0/en/en-pos-maxent-100-c5-baseline-autodict01-conll09.bin' --lemmatizermodels='/cfn/models/morph-models-1.5.0/en/en-lemma-perceptron-conll09.bin' --languages='en' | ixa-pipe-nerc --language=en --model='/cfn/models/nerc-models-1.5.4/en/combined/en-91-18-3-class-muc7-conll03-ontonotes-4.0.bin' --dict-path=/cfn/dict --dict-tag=post | ixa-pipe-ned | naf-http --elastic-search-host=192.168.178.33 --elastic-search-type=article --elastic-search-index=articles --elastic-search-cluster-name=elasticsearch_sanderputs
 
-Create Stream (langstok English)
+Create Stream (langstok English local Dbpedia)
 
-    http-naf --vcap.services.eureka-service.credentials.uri='http://spmm:8761' --host=spmm --cluster-name=elasticsearch_cfncfn | langstok-stanford-corenlp | ixa-pipe-parse | ixa-pipe-ned | ixa-pipe-time | langstok-wsd-ims | ixa-pipe-srl | ixa-pipe-exec --logging.level.com.langstok=debug | ixa-pipe-topic | vua-eventcoreference | naf-http --vcap.services.eureka-service.credentials.uri='http://spmm:8761' --host=spmm --cluster-name=elasticsearch_cfncfn
+    http-naf --vcap.services.eureka-service.credentials.uri='http://spmm:8761' --host=spmm --cluster-name=elasticsearch_cfncfn | langstok-stanford-corenlp | ixa-pipe-parse | ixa-pipe-ned | ixa-pipe-wikify | ixa-pipe-time | langstok-wsd-ims | ixa-pipe-srl | ixa-pipe-exec | ixa-pipe-topic | vua-eventcoreference --knowledge-store=http://spmm:3030/newsreader | naf-http --vcap.services.eureka-service.credentials.uri='http://spmm:8761' --host=spmm --cluster-name=elasticsearch_cfncfn
 
+Create Stream (langstok English public Dbpedia)
+
+    http-naf --vcap.services.eureka-service.credentials.uri='http://spmm:8761' --host=spmm --cluster-name=elasticsearch_cfncfn | langstok-stanford-corenlp | ixa-pipe-parse | ixa-pipe-ned --languages=en --endpoints=http://model.dbpedia-spotlight.org/en/disambiguate | ixa-pipe-time | langstok-wsd-ims | ixa-pipe-srl | ixa-pipe-exec | ixa-pipe-topic | vua-eventcoreference --knowledge-store=http://spmm:3030/newsreader | naf-http --vcap.services.eureka-service.credentials.uri='http://spmm:8761' --host=spmm --cluster-name=elasticsearch_cfncfn
+    
 ## Models ##
 
 [IXA-PIPE-POS](https://github.com/ixa-ehu/ixa-pipe-pos) 
@@ -83,3 +87,33 @@ Create Stream (langstok English)
 SRL
 
 Opinion Miner
+
+## Memory usage ##
+For optimal performance, models are loaded into memory.
+Without max memory settings, the modules use (on a 16GB + swap machine):
+
+    corenlp 3818 (-Xmx4000m)
+    srl 2167
+    ims 2187
+    parse 1200
+    exec 530
+    topic 373
+    eventcoref 1900
+    sink 628
+    time 434
+    ned 314
+    source 609 
+
+To prevent JAVA using the SWAP the following deployment properties for memory usage are recommended:
+
+    deployer.langstok-stanford-corenlp.local.javaOpts=-Xmx4000m
+    deployer.http-naf.local.javaOpts=-Xmx500m
+    deployer.ixa-pipe-parse.local.javaOpts=-Xmx800m 
+    deployer.ixa-pipe-ned.local.javaOpts=-Xmx400m
+    deployer.ixa-pipe-time.local.javaOpts=-Xmx400m
+    deployer.langstok-wsd-ims.local.javaOpts=-Xmx400m
+    deployer.ixa-pipe-srl.local.javaOpts=-Xmx2000m
+    deployer.ixa-pipe-exec.local.javaOpts=-Xmx400m 
+    deployer.ixa-pipe-topic.local.javaOpts=-Xmx400m
+    deployer.vua-eventcoreference.local.javaOpts=-Xmx1000m
+    deployer.naf-http.local.javaOpts=-Xmx500m
