@@ -90,6 +90,14 @@ Opinion Miner
 
 ## Memory usage ##
 For optimal performance, models are loaded into memory.
+Disable swapping to make sure to use RAM. Ubuntu: sudo swapoff -a
+Or limit swapping: 
+
+Or set max default heapsize:
+/etc/profile.d (create chmod 0755 <file>)
+export _JAVA_OPTIONS="-Xmx1g"
+
+
 Without max memory settings, the modules use (on a 16GB + swap machine):
 
     corenlp 3818 (-Xmx4000m)
@@ -110,6 +118,9 @@ To prevent JAVA using the SWAP the following [deployment properties](deployment.
 Provide the following argument to stream local server to set the max message size to 3Mb.
     
     --spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.configuration.max.request.size=3000000
+
+broker: message.max.bytes
+consumer: max.partition.fetch.bytes
 
 ## Logging ##
 To use Elastic stack for log analysis set the log dir.
