@@ -6,9 +6,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class DocumentProperties {
 
     /**
-     * elasticSearchIndex default "articles"
+     * elasticSearchIndex default "annotated"
      */
-    private String index;
+    private String index = "annotated";
 
     /**
      * Use index language suffix (e.g. articles-en)
@@ -18,19 +18,18 @@ public class DocumentProperties {
     /**
      * Document type in index
      */
-    private String type;
+    private String type = "kaf";
 
-
-    /**
-     * Field in ElasticSearch doc to store naf (binary)
-     */
-    private String fieldNaf = "kaf";
 
     /**
      * Field in ElasticSearch doc to store dateAnnotated, if null field not stored
      */
     private String fieldDateAnnotated = "dateAnnotated";
 
+    /**
+     * Field in ElasticSearch doc to store dateAnnotated, if null field not stored
+     */
+    private String fieldNaf = "naf";
 
 
     public String getIndex() {

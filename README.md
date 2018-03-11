@@ -17,11 +17,16 @@ LANGSTOK dependencies
 	git clone https://github.com/langstok/ims_maven.git
 	git clone https://github.com/langstok/stanford-corenlp-naf-mapper.git
 	git clone https://github.com/langstok/EventCoreference.git
+	git clone https://github.com/langstok/KafSaxParser
+	git clone https://github.com/langstok/mateplus_maven
 
-install dependencies of ims_maven by following instructions
+install ims_maven dependencies by following its README.MD
+install topic, srl, wsd dependencies by following its README.MD
+
 
 	mvn install -f ./ims_maven/pom.xml 
 	mvn install -f ./stanford-corenlp-naf-mapper/pom.xml
+	mvn install -f ./KafSaxParser/pom.xml
 	mvn install -f ./EventCoreference/pom.xml 
 
 
@@ -114,13 +119,22 @@ Without max memory settings, the modules use (on a 16GB + swap machine):
 
 To prevent JAVA using the SWAP the following [deployment properties](deployment.properties) for memory usage are recommended.
 
-## Kafka max message size ##
+## Kafka settings ##
 Provide the following argument to stream local server to set the max message size to 3Mb.
     
     --spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.configuration.max.request.size=3000000
+    --spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.bindings.input.consumer.maxAttempts=1
+
 
 broker: message.max.bytes
 consumer: max.partition.fetch.bytes
+
+kafka/config/server.properties
+message.max.bytes = 3000000
+session.timeout.ms = 30000 #SRL doesnt make it
+retries = 0
+
+spring.cloud.stream.bindings.input.consumer.maxAttempts=1
 
 ## Logging ##
 To use Elastic stack for log analysis set the log dir.

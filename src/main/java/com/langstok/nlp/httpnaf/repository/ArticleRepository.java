@@ -3,6 +3,9 @@ package com.langstok.nlp.httpnaf.repository;
 import com.langstok.nlp.httpnaf.configuration.properties.DocumentProperties;
 import com.langstok.nlp.httpnaf.enumeration.SupportedLanguage;
 import org.apache.log4j.Logger;
+import org.elasticsearch.action.ActionFuture;
+import org.elasticsearch.action.delete.DeleteRequestBuilder;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetRequestBuilder;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.Client;
@@ -27,13 +30,12 @@ public class ArticleRepository {
 
 	private DocumentProperties documentProperties;
 
-
 	public ArticleRepository(Client client, DocumentProperties documentProperties) {
 		this.client = client;
 		this.documentProperties = documentProperties;
 	}
 
-	public GetResponse getKAFDocumentById(String id, String lang) throws Exception{
+	public GetResponse getKAFDocumentById(String id, String lang) {
 		
 		String index = documentProperties.getIndex();
 		if(documentProperties.isIndexLanguageSuffix())
@@ -41,12 +43,22 @@ public class ArticleRepository {
 		String type = documentProperties.getType();
 		logger.debug("Get article id:" +id+" for index: "+ index +" and type: " + type);
 		
-		GetResponse response = client.prepareGet("articles-"+lang, "article", id).get();
-		if(response.getSourceAsString()==null) 
-			throw new Exception("document not found");
-		
-		return response;
+		return client.prepareGet("articles-"+lang, "article", id).get();
 	}
+
+    public GetResponse getKAFDocumentByIdExeption(String id, String lang) throws Exception {
+
+        String index = documentProperties.getIndex();
+        if(documentProperties.isIndexLanguageSuffix())
+            index = index+"-"+lang;
+        String type = documentProperties.getType();
+        logger.debug("Get article id:" +id+" for index: "+ index +" and type: " + type);
+
+        GetResponse getResponse = client.prepareGet("articles-" + lang, "article", id).get();
+        if(!getResponse.isExists())
+            throw new Exception("Id not found: " + id);
+        return getResponse;
+    }
 
 	public Path getKaf(String id, SupportedLanguage language) throws IOException {
 		GetRequestBuilder get = client.prepareGet()
@@ -57,5 +69,13 @@ public class ArticleRepository {
 		Path path = Paths.get("./kaf.xml");
 		Files.write(path, data);
 		return path;
+	}
+
+	public ActionFuture<DeleteResponse> delete(String id, SupportedLanguage language) {
+		DeleteRequestBuilder deleteRequestBuilder = client.prepareDelete()
+				.setIndex("articles-"+language.name())
+				.setId(id);
+
+		return deleteRequestBuilder.execute();
 	}
 }
