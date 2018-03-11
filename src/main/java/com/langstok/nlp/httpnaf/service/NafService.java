@@ -14,9 +14,9 @@ import org.jdom2.JDOMException;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.StringReader;
+import java.io.*;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -67,7 +67,12 @@ public class NafService {
     }
 
 
-    public KAFDocument create(NafDto dto) throws IOException, JDOMException {
+    public KAFDocument create(MultipartFile multipartFile) throws IOException, JDOMException {
+        return KAFDocument.createFromStream(new BufferedReader(new InputStreamReader(multipartFile.getInputStream())));
+    }
+
+
+        public KAFDocument create(NafDto dto) throws IOException, JDOMException {
 
         KAFDocument document = null;
 
@@ -176,9 +181,6 @@ public class NafService {
         return retryTemplate.execute(context -> articleRepository.getKAFDocumentByIdExeption(id, lang));
     }
 
+    public DeleteResponse delete(String publicId, SupportedLanguage language)
 
-
-    public DeleteResponse delete(String publicId, SupportedLanguage language) {
-        return articleRepository.delete(publicId, language);
-    }
 }
