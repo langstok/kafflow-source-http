@@ -177,16 +177,7 @@ public class NafService {
     }
 
     public GetResponse getKafDocumentByIdPoll(String id, String lang) throws Exception {
-        retryTemplate.execute(new RetryCallback<GetResponse, Exception>() {
-
-            @Override
-            public GetResponse doWithRetry(RetryContext arg0) throws Exception {
-                 return articleRepository.getKAFDocumentByIdExeption(id, lang);
-            }
-
-        });
-        return null;
-
+        return retryTemplate.execute(context -> articleRepository.getKAFDocumentByIdExeption(id, lang));
     }
 
 
