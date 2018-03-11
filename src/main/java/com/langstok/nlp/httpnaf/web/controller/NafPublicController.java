@@ -23,7 +23,6 @@ public class NafPublicController {
     private static final Logger logger = Logger.getLogger(NafController.class);
 
     private HttpNafSourceConfiguration httpNafSourceConfiguration;
-
     private NafService nafService;
 
     public NafPublicController(HttpNafSourceConfiguration httpNafSourceConfiguration, NafService nafService) {
