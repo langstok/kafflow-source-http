@@ -4,6 +4,7 @@ import com.langstok.nlp.httpnaf.configuration.HttpNafSourceConfiguration;
 import com.langstok.nlp.httpnaf.enumeration.SupportedLanguage;
 import com.langstok.nlp.httpnaf.service.NafService;
 import com.langstok.nlp.httpnaf.web.dto.NafDto;
+import io.swagger.annotations.ApiOperation;
 import ixa.kaflib.KAFDocument;
 import org.apache.http.entity.ContentType;
 import org.apache.log4j.Logger;
@@ -31,6 +32,7 @@ public class NafPublicController {
     }
 
     @PostMapping("/naf")
+    @ApiOperation(value = "Synchronous pipeline call", notes = "For testing purposes only!")
     public ResponseEntity<String> createDocumentPoll(@RequestBody(required = false) NafDto dto,
                                                      @RequestPart(required = false) MultipartFile nafFile)
             throws IOException, JDOMException {

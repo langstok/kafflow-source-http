@@ -181,6 +181,8 @@ public class NafService {
         return retryTemplate.execute(context -> articleRepository.getKAFDocumentByIdExeption(id, lang));
     }
 
-    public DeleteResponse delete(String publicId, SupportedLanguage language)
+    public DeleteResponse delete(String publicId, SupportedLanguage language){
+        return articleRepository.delete(publicId, language);
+    }
 
 }
