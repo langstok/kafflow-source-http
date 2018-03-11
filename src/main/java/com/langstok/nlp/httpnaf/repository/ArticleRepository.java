@@ -3,7 +3,6 @@ package com.langstok.nlp.httpnaf.repository;
 import com.langstok.nlp.httpnaf.configuration.properties.DocumentProperties;
 import com.langstok.nlp.httpnaf.enumeration.SupportedLanguage;
 import org.apache.log4j.Logger;
-import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.delete.DeleteRequestBuilder;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetRequestBuilder;
@@ -71,11 +70,12 @@ public class ArticleRepository {
 		return path;
 	}
 
-	public ActionFuture<DeleteResponse> delete(String id, SupportedLanguage language) {
+	public DeleteResponse delete(String id, SupportedLanguage language) {
 		DeleteRequestBuilder deleteRequestBuilder = client.prepareDelete()
 				.setIndex("articles-"+language.name())
+				.setType("article")
 				.setId(id);
 
-		return deleteRequestBuilder.execute();
+		return deleteRequestBuilder.get();
 	}
 }

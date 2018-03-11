@@ -8,14 +8,10 @@ import com.langstok.nlp.httpnaf.repository.ArticleRepository;
 import com.langstok.nlp.httpnaf.web.dto.NafDto;
 import ixa.kaflib.KAFDocument;
 import org.apache.log4j.Logger;
-import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.jdom2.JDOMException;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.retry.RetryCallback;
-import org.springframework.retry.RetryContext;
-import org.springframework.retry.annotation.Retryable;
 import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Service;
 
@@ -182,7 +178,7 @@ public class NafService {
 
 
 
-    public ActionFuture<DeleteResponse> delete(String publicId, SupportedLanguage language) {
+    public DeleteResponse delete(String publicId, SupportedLanguage language) {
         return articleRepository.delete(publicId, language);
     }
 }
