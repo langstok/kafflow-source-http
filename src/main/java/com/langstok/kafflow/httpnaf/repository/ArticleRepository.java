@@ -1,7 +1,7 @@
-package com.langstok.nafflow.httpnaf.repository;
+package com.langstok.kafflow.httpnaf.repository;
 
 import com.langstok.nlp.httpnaf.configuration.properties.DocumentProperties;
-import com.langstok.nafflow.httpnaf.enumeration.SupportedLanguage;
+import com.langstok.kafflow.httpnaf.enumeration.SupportedLanguage;
 import org.apache.log4j.Logger;
 import org.elasticsearch.action.delete.DeleteRequestBuilder;
 import org.elasticsearch.action.delete.DeleteResponse;

@@ -1,6 +1,6 @@
-package com.langstok.nafflow.httpnaf.web.dto;
+package com.langstok.kafflow.httpnaf.web.dto;
 
-import com.langstok.nafflow.httpnaf.enumeration.SupportedLanguage;
+import com.langstok.kafflow.httpnaf.enumeration.SupportedLanguage;
 
 import java.util.Date;
 

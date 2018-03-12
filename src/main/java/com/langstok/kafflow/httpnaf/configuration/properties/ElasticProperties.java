@@ -1,4 +1,4 @@
-package com.langstok.nafflow.httpnaf.configuration.properties;
+package com.langstok.kafflow.httpnaf.configuration.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

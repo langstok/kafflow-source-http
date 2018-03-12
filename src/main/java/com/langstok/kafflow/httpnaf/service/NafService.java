@@ -1,9 +1,9 @@
-package com.langstok.nafflow.httpnaf.service;
+package com.langstok.kafflow.httpnaf.service;
 
-import com.langstok.nafflow.httpnaf.configuration.properties.NafProperties;
-import com.langstok.nafflow.httpnaf.repository.ArticleRepository;
-import com.langstok.nafflow.httpnaf.web.dto.NafDto;
-import com.langstok.nafflow.httpnaf.enumeration.SupportedLanguage;
+import com.langstok.kafflow.httpnaf.configuration.properties.NafProperties;
+import com.langstok.kafflow.httpnaf.repository.ArticleRepository;
+import com.langstok.kafflow.httpnaf.web.dto.NafDto;
+import com.langstok.kafflow.httpnaf.enumeration.SupportedLanguage;
 import ixa.kaflib.KAFDocument;
 import org.apache.log4j.Logger;
 import org.elasticsearch.action.delete.DeleteResponse;

@@ -1,9 +1,9 @@
-package com.langstok.nafflow.httpnaf.web.controller;
+package com.langstok.kafflow.httpnaf.web.controller;
 
-import com.langstok.nafflow.httpnaf.web.dto.NafDto;
-import com.langstok.nafflow.httpnaf.service.HttpNafSource;
-import com.langstok.nafflow.httpnaf.enumeration.SupportedLanguage;
-import com.langstok.nafflow.httpnaf.service.NafService;
+import com.langstok.kafflow.httpnaf.web.dto.NafDto;
+import com.langstok.kafflow.httpnaf.service.HttpNafSource;
+import com.langstok.kafflow.httpnaf.enumeration.SupportedLanguage;
+import com.langstok.kafflow.httpnaf.service.NafService;
 import io.swagger.annotations.ApiOperation;
 import ixa.kaflib.KAFDocument;
 import org.apache.http.entity.ContentType;

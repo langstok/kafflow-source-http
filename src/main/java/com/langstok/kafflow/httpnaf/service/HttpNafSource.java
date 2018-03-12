@@ -1,4 +1,4 @@
-package com.langstok.nafflow.httpnaf.service;
+package com.langstok.kafflow.httpnaf.service;
 
 import ixa.kaflib.KAFDocument;
 import org.springframework.beans.factory.annotation.Autowired;

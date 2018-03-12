@@ -1,5 +1,5 @@
-# NAFFLOW = NAF + SCDF
-##A NLP pipeline build on Spring Cloud Data Flow & NAF Document format
+# KAFFLOW = KAF + SCDF
+##A NLP pipeline build on Spring Cloud Data Flow & KAF Document format
  
 Based on the [newsreader](http://www.newsreader-project.eu/) NLP pipeline
 
