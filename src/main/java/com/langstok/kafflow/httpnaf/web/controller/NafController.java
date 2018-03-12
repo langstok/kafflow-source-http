@@ -1,9 +1,9 @@
-package com.langstok.nlp.httpnaf.web.controller;
+package com.langstok.kafflow.httpnaf.web.controller;
 
-import com.langstok.nlp.httpnaf.configuration.HttpNafSourceConfiguration;
-import com.langstok.nlp.httpnaf.enumeration.SupportedLanguage;
-import com.langstok.nlp.httpnaf.service.NafService;
-import com.langstok.nlp.httpnaf.web.dto.NafDto;
+import com.langstok.kafflow.httpnaf.configuration.HttpNafSourceConfiguration;
+import com.langstok.kafflow.httpnaf.enumeration.SupportedLanguage;
+import com.langstok.kafflow.httpnaf.service.NafService;
+import com.langstok.kafflow.httpnaf.web.dto.NafDto;
 import ixa.kaflib.KAFDocument;
 import org.apache.http.entity.ContentType;
 import org.apache.tomcat.util.http.fileupload.IOUtils;

@@ -5,25 +5,8 @@ elasticsearch:
    host: ${langstok.nlp.elasticsearch.host:localhost}
 
 document:
-   index: ${langstok.nlp.elasticsearch.index:articles}
-   type: ${langstok.nlp.elasticsearch.type:article}
-
-naf:
-   mapping:
-       # author:
-       creationTime: dateRetrieved
-       fileName: url
-       # fileType:
-       language: language
-       location: outletCountry
-       magazine: outletName
-       # naf: naf
-       # pages:
-       publisher: ownerName
-       rawText: text
-       section: category
-       title: title
-       uri: uri
+   index: ${langstok.nlp.elasticsearch.index:nlp}
+   type: ${langstok.nlp.elasticsearch.type:kaf}
 
 eureka:
  client:

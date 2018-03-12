@@ -1,4 +1,4 @@
-package com.langstok.nlp.httpnaf.web.controller;
+package com.langstok.kafflow.httpnaf.web.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

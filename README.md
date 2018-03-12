@@ -1,4 +1,7 @@
-# LANGSTOK adaptation of the [newsreader](http://www.newsreader-project.eu/) NLP pipeline #
+# KAFFLOW = KAF + SCDF
+##A NLP pipeline build on Spring Cloud Data Flow
+ 
+Adaptation of the [newsreader](http://www.newsreader-project.eu/) NLP pipeline
 
 [news-reader](http://www.newsreader-project.eu/) modules adapted to a microservices-based distributed streaming pipeline. 
 

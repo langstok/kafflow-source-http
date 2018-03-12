@@ -1,6 +1,6 @@
-package com.langstok.nlp.httpnaf.configuration;
+package com.langstok.kafflow.httpnaf.configuration;
 
-import com.langstok.nlp.httpnaf.configuration.properties.ElasticProperties;
+import com.langstok.kafflow.httpnaf.configuration.properties.ElasticProperties;
 import org.apache.log4j.Logger;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;

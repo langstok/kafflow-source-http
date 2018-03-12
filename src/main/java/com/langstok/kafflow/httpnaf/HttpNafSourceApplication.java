@@ -1,4 +1,4 @@
-package com.langstok.nlp.httpnaf;
+package com.langstok.kafflow.httpnaf;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

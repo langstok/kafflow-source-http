@@ -1,9 +1,9 @@
-package com.langstok.nlp.httpnaf.web.controller;
+package com.langstok.kafflow.httpnaf.web.controller;
 
-import com.langstok.nlp.httpnaf.configuration.HttpNafSourceConfiguration;
-import com.langstok.nlp.httpnaf.enumeration.SupportedLanguage;
-import com.langstok.nlp.httpnaf.service.NafService;
-import com.langstok.nlp.httpnaf.web.dto.NafDto;
+import com.langstok.kafflow.httpnaf.web.dto.NafDto;
+import com.langstok.kafflow.httpnaf.configuration.HttpNafSourceConfiguration;
+import com.langstok.kafflow.httpnaf.enumeration.SupportedLanguage;
+import com.langstok.kafflow.httpnaf.service.NafService;
 import io.swagger.annotations.ApiOperation;
 import ixa.kaflib.KAFDocument;
 import org.apache.http.entity.ContentType;
@@ -44,6 +44,13 @@ public class NafPublicController {
             kaf = nafService.create(nafFile);
         else
             return ResponseEntity.badRequest().build();
+
+        try {
+            SupportedLanguage.valueOf(kaf.getLang());
+        }
+        catch(IllegalArgumentException e){
+            return ResponseEntity.badRequest().body("Unsupported language="+kaf.getLang());
+        }
 
         httpNafSourceConfiguration.sendMessage(kaf, ContentType.APPLICATION_JSON);
 
