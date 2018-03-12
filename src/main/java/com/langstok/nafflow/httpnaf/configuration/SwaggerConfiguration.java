@@ -1,4 +1,4 @@
-package com.langstok.kafflow.httpnaf.configuration;
+package com.langstok.nafflow.httpnaf.configuration;
 
 import static springfox.documentation.builders.PathSelectors.regex;
 

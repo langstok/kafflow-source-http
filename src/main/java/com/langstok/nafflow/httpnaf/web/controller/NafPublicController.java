@@ -1,9 +1,9 @@
-package com.langstok.kafflow.httpnaf.web.controller;
+package com.langstok.nafflow.httpnaf.web.controller;
 
-import com.langstok.kafflow.httpnaf.web.dto.NafDto;
-import com.langstok.kafflow.httpnaf.configuration.HttpNafSourceConfiguration;
-import com.langstok.kafflow.httpnaf.enumeration.SupportedLanguage;
-import com.langstok.kafflow.httpnaf.service.NafService;
+import com.langstok.nafflow.httpnaf.web.dto.NafDto;
+import com.langstok.nafflow.httpnaf.service.HttpNafSource;
+import com.langstok.nafflow.httpnaf.enumeration.SupportedLanguage;
+import com.langstok.nafflow.httpnaf.service.NafService;
 import io.swagger.annotations.ApiOperation;
 import ixa.kaflib.KAFDocument;
 import org.apache.http.entity.ContentType;
@@ -23,11 +23,11 @@ public class NafPublicController {
 
     private static final Logger logger = Logger.getLogger(NafController.class);
 
-    private HttpNafSourceConfiguration httpNafSourceConfiguration;
+    private HttpNafSource httpNafSource;
     private NafService nafService;
 
-    public NafPublicController(HttpNafSourceConfiguration httpNafSourceConfiguration, NafService nafService) {
-        this.httpNafSourceConfiguration = httpNafSourceConfiguration;
+    public NafPublicController(HttpNafSource httpNafSource, NafService nafService) {
+        this.httpNafSource = httpNafSource;
         this.nafService = nafService;
     }
 
@@ -52,7 +52,7 @@ public class NafPublicController {
             return ResponseEntity.badRequest().body("Unsupported language="+kaf.getLang());
         }
 
-        httpNafSourceConfiguration.sendMessage(kaf, ContentType.APPLICATION_JSON);
+        httpNafSource.sendMessage(kaf, ContentType.APPLICATION_JSON);
 
         try {
             GetResponse getResponse = nafService.getKafDocumentByIdPoll(kaf.getPublic().publicId, SupportedLanguage.en.name());

@@ -1,9 +1,9 @@
-package com.langstok.kafflow.httpnaf.web.controller;
+package com.langstok.nafflow.httpnaf.web.controller;
 
-import com.langstok.kafflow.httpnaf.configuration.HttpNafSourceConfiguration;
-import com.langstok.kafflow.httpnaf.enumeration.SupportedLanguage;
-import com.langstok.kafflow.httpnaf.service.NafService;
-import com.langstok.kafflow.httpnaf.web.dto.NafDto;
+import com.langstok.nafflow.httpnaf.service.HttpNafSource;
+import com.langstok.nafflow.httpnaf.enumeration.SupportedLanguage;
+import com.langstok.nafflow.httpnaf.service.NafService;
+import com.langstok.nafflow.httpnaf.web.dto.NafDto;
 import ixa.kaflib.KAFDocument;
 import org.apache.http.entity.ContentType;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
@@ -21,19 +21,19 @@ import java.nio.file.Path;
 @RequestMapping("/api")
 public class NafController {
 
-    private HttpNafSourceConfiguration httpNafSourceConfiguration;
+    private HttpNafSource httpNafSource;
 
     private NafService nafService;
 
-    public NafController(HttpNafSourceConfiguration httpNafSourceConfiguration, NafService nafService) {
-        this.httpNafSourceConfiguration = httpNafSourceConfiguration;
+    public NafController(HttpNafSource httpNafSource, NafService nafService) {
+        this.httpNafSource = httpNafSource;
         this.nafService = nafService;
     }
 
     @PostMapping("/naf")
     public ResponseEntity createDocument(@RequestBody NafDto dto) throws IOException, JDOMException {
         KAFDocument kaf = nafService.create(dto);
-        httpNafSourceConfiguration.sendMessage(kaf, ContentType.APPLICATION_JSON);
+        httpNafSource.sendMessage(kaf, ContentType.APPLICATION_JSON);
         return ResponseEntity.accepted().build();
     }
 

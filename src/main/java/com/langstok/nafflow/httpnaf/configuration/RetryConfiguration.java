@@ -1,4 +1,4 @@
-package com.langstok.kafflow.httpnaf.configuration;
+package com.langstok.nafflow.httpnaf.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

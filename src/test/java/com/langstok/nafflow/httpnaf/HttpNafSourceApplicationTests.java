@@ -1,4 +1,4 @@
-package com.langstok.kafflow.httpnaf;
+package com.langstok.nafflow.httpnaf;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
