@@ -1,0 +1,9 @@
+version: '2'
+services:
+    kafflow-source-http-app:
+        image: langstok/kafflow-source-http
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - APP_SLEEP=0
+        ports:
+            - 8080:8080
