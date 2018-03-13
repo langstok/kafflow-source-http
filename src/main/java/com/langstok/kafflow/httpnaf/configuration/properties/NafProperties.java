@@ -15,6 +15,9 @@ public class NafProperties {
 	 */
 	private String creationDateFormat = "yyyy-MM-dd'T'HH:mm:ss";
 
+	/**
+	 * Supported Languages, default "en"
+	 */
 	private Set<String> supportedLanguages = new HashSet<>(Arrays.asList("en"));
 
 	public String getCreationDateFormat() {

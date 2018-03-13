@@ -5,8 +5,14 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "retry")
 public class RetryProperties {
 
+    /**
+     * Backoff period for elasticsearch document poll
+     */
     private long setBackOffPeriod = 2000;
 
+    /**
+     * Max elasticsearch document poll attempts
+     */
     private int maxAttempts = 15;
 
     public long getSetBackOffPeriod() {
