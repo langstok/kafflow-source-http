@@ -1,5 +1,7 @@
 package com.langstok.kafflow.httpnaf.configuration;
 
+import com.langstok.kafflow.httpnaf.configuration.properties.RetryProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.retry.backoff.FixedBackOffPolicy;
@@ -10,24 +12,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@EnableConfigurationProperties({RetryProperties.class})
 public class RetryConfiguration {
 
+    RetryProperties retryProperties;
+
+    public RetryConfiguration(RetryProperties retryProperties) {
+        this.retryProperties = retryProperties;
+    }
 
     @Bean
     public RetryTemplate configuredRetry() {
         RetryTemplate retryTemplate = new RetryTemplate();
 
         FixedBackOffPolicy fixedBackOffPolicy = new FixedBackOffPolicy();
-        fixedBackOffPolicy.setBackOffPeriod(2000l);
+        fixedBackOffPolicy.setBackOffPeriod(retryProperties.getSetBackOffPeriod());
         retryTemplate.setBackOffPolicy(fixedBackOffPolicy);
 
-
-//        Map<Class<? extends Throwable>, Boolean> exceptions = new HashMap<>();
-//        exceptions.put(Exception.class, Boolean.FALSE);
-
-        SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy(20);
-        //retryPolicy.setMaxAttempts(20);
-
+        SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy();
+        retryPolicy.setMaxAttempts(retryProperties.getMaxAttempts());
         retryTemplate.setRetryPolicy(retryPolicy);
 
         return retryTemplate;
