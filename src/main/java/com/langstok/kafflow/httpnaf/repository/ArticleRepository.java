@@ -1,13 +1,13 @@
 package com.langstok.kafflow.httpnaf.repository;
 
-import com.langstok.nlp.httpnaf.configuration.properties.DocumentProperties;
-import com.langstok.kafflow.httpnaf.enumeration.SupportedLanguage;
+import com.langstok.kafflow.httpnaf.configuration.properties.ElasticProperties;
 import org.apache.log4j.Logger;
 import org.elasticsearch.action.delete.DeleteRequestBuilder;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetRequestBuilder;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.Client;
+import org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 
@@ -20,62 +20,66 @@ import java.util.Map;
 
 
 @Service
-@EnableConfigurationProperties(DocumentProperties.class)
+@EnableConfigurationProperties(ElasticProperties.class)
 public class ArticleRepository {
 
 	private final static Logger logger = Logger.getLogger(ArticleRepository.class);
 
 	private Client client;
+	private ElasticProperties elasticsearchProperties;
 
-	private DocumentProperties documentProperties;
 
-	public ArticleRepository(Client client, DocumentProperties documentProperties) {
+	public ArticleRepository(Client client, ElasticProperties elasticProperties) {
 		this.client = client;
-		this.documentProperties = documentProperties;
+		this.elasticsearchProperties = elasticProperties;
 	}
 
-	public GetResponse getKAFDocumentById(String id, String lang) {
-		
-		String index = documentProperties.getIndex();
-		if(documentProperties.isIndexLanguageSuffix())
-			index = index+"-"+lang;
-		String type = documentProperties.getType();
-		logger.debug("Get article id:" +id+" for index: "+ index +" and type: " + type);
-		
-		return client.prepareGet("articles-"+lang, "article", id).get();
-	}
+    public GetResponse getKAFDocumentByIdExeption(String id, String language) throws Exception {
 
-    public GetResponse getKAFDocumentByIdExeption(String id, String lang) throws Exception {
+		String index = getIndex(language);
+		String type = elasticsearchProperties.getType();
 
-        String index = documentProperties.getIndex();
-        if(documentProperties.isIndexLanguageSuffix())
-            index = index+"-"+lang;
-        String type = documentProperties.getType();
-        logger.debug("Get article id:" +id+" for index: "+ index +" and type: " + type);
-
-        GetResponse getResponse = client.prepareGet("articles-" + lang, "article", id).get();
+		logger.info("Poll " + index + "/" + type + "/" + id);
+		GetResponse getResponse = client.prepareGet(index, type, id).get();
         if(!getResponse.isExists())
-            throw new Exception("Id not found: " + id);
+            throw new Exception("Document not found: " + id);
         return getResponse;
     }
 
-	public Path getKaf(String id, SupportedLanguage language) throws IOException {
+	public Path getKaf(String id, String language) throws IOException {
+
+		String index = getIndex(language);
+		String type = elasticsearchProperties.getType();
+
+		logger.info("Get " + index + "/" + type + "/" + id);
 		GetRequestBuilder get = client.prepareGet()
-				.setIndex("articles-"+language.name())
+				.setIndex(index)
+				.setType(type)
 				.setId(id);
+
 		Map<String, Object> map = get.get().getSourceAsMap();
-		byte[] data = Base64.getDecoder().decode((String)map.get("kaf"));
-		Path path = Paths.get("./kaf.xml");
+		byte[] data = Base64.getDecoder().decode((String)map.get(elasticsearchProperties.getFieldNaf()));
+		Path path = Paths.get("./" + id + "-kaf.xml");
 		Files.write(path, data);
 		return path;
 	}
 
-	public DeleteResponse delete(String id, SupportedLanguage language) {
+	public DeleteResponse delete(String id, String language) {
+		String index = getIndex(language);
+		String type = elasticsearchProperties.getType();
+
+		logger.info("Delete " + index + "/" + type + "/" + id);
 		DeleteRequestBuilder deleteRequestBuilder = client.prepareDelete()
-				.setIndex("articles-"+language.name())
-				.setType("article")
+				.setIndex(index)
+				.setType(type)
 				.setId(id);
 
 		return deleteRequestBuilder.get();
+	}
+
+	private String getIndex(String language){
+		if(elasticsearchProperties.isIndexLanguageSuffix())
+			return elasticsearchProperties.getIndex()+"-"+language;
+		return elasticsearchProperties.getIndex();
 	}
 }

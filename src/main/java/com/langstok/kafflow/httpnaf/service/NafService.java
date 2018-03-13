@@ -3,7 +3,6 @@ package com.langstok.kafflow.httpnaf.service;
 import com.langstok.kafflow.httpnaf.configuration.properties.NafProperties;
 import com.langstok.kafflow.httpnaf.repository.ArticleRepository;
 import com.langstok.kafflow.httpnaf.web.dto.NafDto;
-import com.langstok.kafflow.httpnaf.enumeration.SupportedLanguage;
 import ixa.kaflib.KAFDocument;
 import org.apache.log4j.Logger;
 import org.elasticsearch.action.delete.DeleteResponse;
@@ -26,34 +25,19 @@ public class NafService {
 
     private static final Logger logger = Logger.getLogger(NafService.class);
 
-    public static final String AUTHOR = "author";
-    public static final String CREATION_TIME = "creationTime";
-    public static final String FILE_NAME = "fileName";
-    public static final String FILE_TYPE = "fileType";
-    public static final String LANGUAGE = "language";
-    public static final String LOCATION = "location";
-    public static final String MAGAZINE = "magazine";
-    public static final String KAF = "kaf";
-    public static final String PAGES = "pages";
-    public static final String PUBLISHER = "publisher";
-    public static final String RAWTEXT = "rawText";
-    public static final String SECTION = "section";
-    public static final String TITLE = "title";
-    public static final String URI = "uri";
-
-    public static final String FILE_TYPE_HTTP = "HTTP";
-
-
+    private static final String FILE_TYPE_HTTP = "HTTP";
     private static final String NAFVERSION = KAFDocument.class.getClass().getPackage().getImplementationVersion();
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+    private static SimpleDateFormat dateFormat;
 
     private ArticleRepository articleRepository;
     private RetryTemplate retryTemplate;
+    private NafProperties nafProperties;
 
 
-    public NafService(ArticleRepository articleRepository, RetryTemplate configuredRetry) {
+    public NafService(ArticleRepository articleRepository, RetryTemplate configuredRetry, NafProperties nafProperties) {
         this.articleRepository = articleRepository;
         this.retryTemplate = configuredRetry;
+         dateFormat = new SimpleDateFormat(nafProperties.getCreationDateFormat());
     }
 
 
@@ -64,7 +48,7 @@ public class NafService {
 
     public KAFDocument create(NafDto dto) {
 
-        KAFDocument document = new KAFDocument(dto.getLanguage().name(), NAFVERSION);
+        KAFDocument document = new KAFDocument(dto.getLanguage(), NAFVERSION);
         document.setRawText(dto.getRawText());
 
         document.createPublic();
@@ -88,7 +72,7 @@ public class NafService {
     }
 
 
-    public Path getKaf(String id, SupportedLanguage language) throws IOException {
+    public Path getKaf(String id, String language) throws IOException {
         return articleRepository.getKaf(id, language);
     }
 
@@ -96,7 +80,7 @@ public class NafService {
         return retryTemplate.execute(context -> articleRepository.getKAFDocumentByIdExeption(id, lang));
     }
 
-    public DeleteResponse delete(String publicId, SupportedLanguage language){
+    public DeleteResponse delete(String publicId, String language){
         return articleRepository.delete(publicId, language);
     }
 

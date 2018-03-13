@@ -22,9 +22,9 @@ public class ElasticProperties {
 
 
     /**
-     * elasticSearchIndex default "annotated"
+     * elasticSearchIndex default "kaf"
      */
-    private String index = "annotated";
+    private String index = "kaf";
 
     /**
      * Use index language suffix (e.g. articles-en)
@@ -45,7 +45,7 @@ public class ElasticProperties {
     /**
      * Field in ElasticSearch doc to store dateAnnotated, if null field not stored
      */
-    private String fieldNaf = "naf";
+    private String fieldNaf = "kaf";
 
 
 
@@ -126,6 +126,8 @@ public class ElasticProperties {
     public void setFieldNaf(String fieldNaf) {
         this.fieldNaf = fieldNaf;
     }
+
+
 
     @Override
     public String toString() {

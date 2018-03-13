@@ -1,7 +1,5 @@
 package com.langstok.kafflow.httpnaf.web.dto;
 
-import com.langstok.kafflow.httpnaf.enumeration.SupportedLanguage;
-
 import java.util.Date;
 
 public class NafDto {
@@ -15,16 +13,18 @@ public class NafDto {
 	private String filename = "";
 	private String filetype = "";
 	private Integer pages = 0;
+
+    /**
+     * Default creation date format yyyy-MM-dd'T'HH:mm:ss
+     */
 	private Date creationtime = new Date();
 	
 	private String publicId = "";
 	private String uri = "";
 	
 	private String rawText = "";
-	private SupportedLanguage language = SupportedLanguage.en;
-	
-	private String kaf;
-	
+	private String language = "en";
+
 	public String getAuthor() {
 		return author;
 	}
@@ -104,17 +104,13 @@ public class NafDto {
 	public void setRawText(String rawText) {
 		this.rawText = rawText;
 	}
-	public SupportedLanguage getLanguage() {
-		return language;
-	}
-	public void setLanguage(SupportedLanguage language) {
-		this.language = language;
-	}
-	public String getKaf() {
-		return kaf;
-	}
-	public void setKaf(String kaf) {
-		this.kaf = kaf;
-	}
-	
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
 }

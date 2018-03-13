@@ -1,7 +1,6 @@
 package com.langstok.kafflow.httpnaf.web.controller;
 
 import com.langstok.kafflow.httpnaf.service.HttpNafSource;
-import com.langstok.kafflow.httpnaf.enumeration.SupportedLanguage;
 import com.langstok.kafflow.httpnaf.service.NafService;
 import com.langstok.kafflow.httpnaf.web.dto.NafDto;
 import ixa.kaflib.KAFDocument;
@@ -40,7 +39,7 @@ public class NafController {
 
     @GetMapping(value="/naf")
     public void getKaf(@RequestParam String id,
-                       @RequestParam(defaultValue = "en") SupportedLanguage language,
+                       @RequestParam(defaultValue = "en") String language,
                        HttpServletResponse response) throws Exception{
         response.setContentType("application/x-download");
         response.setHeader("Content-disposition", "attachment; filename=kaf.xml");
