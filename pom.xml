@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.langstok.nlp.kafflow</groupId>
-	<artifactId>source-http-naf</artifactId>
+	<artifactId>kafflow-source-http</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>source-http-naf</name>
-	<description>Spring Cloud Streaming Source for http NAF</description>
+	<name>kafflow-source-http</name>
+	<description>Spring Cloud Data Flow Source for http to KAFDocument</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
