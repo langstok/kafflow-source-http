@@ -1,12 +1,11 @@
-package com.langstok.kafflow.httpnaf.web.controller;
+package com.langstok.kafflow.sourcehttp.web.controller;
 
-import com.langstok.kafflow.httpnaf.service.HttpNafSource;
-import com.langstok.kafflow.httpnaf.service.NafService;
-import com.langstok.kafflow.httpnaf.web.dto.NafDto;
+import com.langstok.kafflow.sourcehttp.service.HttpNafSource;
+import com.langstok.kafflow.sourcehttp.service.NafService;
+import com.langstok.kafflow.sourcehttp.web.dto.NafDto;
 import ixa.kaflib.KAFDocument;
 import org.apache.http.entity.ContentType;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.jdom2.JDOMException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +29,7 @@ public class NafController {
     }
 
     @PostMapping("/naf")
-    public ResponseEntity createDocument(@RequestBody NafDto dto) throws IOException, JDOMException {
+    public ResponseEntity createDocument(@RequestBody NafDto dto) {
         KAFDocument kaf = nafService.create(dto);
         httpNafSource.sendMessage(kaf, ContentType.APPLICATION_JSON);
         return ResponseEntity.accepted().build();

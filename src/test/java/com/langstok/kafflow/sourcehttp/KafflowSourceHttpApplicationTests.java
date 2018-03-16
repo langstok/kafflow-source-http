@@ -1,4 +1,4 @@
-package com.langstok.kafflow.httpnaf;
+package com.langstok.kafflow.sourcehttp;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class HttpNafSourceApplicationTests {
+public class KafflowSourceHttpApplicationTests {
 
 	@Test
 	public void contextLoads() {

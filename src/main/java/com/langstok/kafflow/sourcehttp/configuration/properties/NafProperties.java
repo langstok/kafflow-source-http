@@ -1,10 +1,9 @@
-package com.langstok.kafflow.httpnaf.configuration.properties;
+package com.langstok.kafflow.sourcehttp.configuration.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 @ConfigurationProperties(prefix = "naf")

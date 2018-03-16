@@ -1,4 +1,4 @@
-package com.langstok.kafflow.httpnaf.configuration;
+package com.langstok.kafflow.sourcehttp.configuration;
 
 import static springfox.documentation.builders.PathSelectors.regex;
 
@@ -32,8 +32,8 @@ public class SwaggerConfiguration {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("LANGSTOK NLP SOURCE-HTTP-NAF")
-                .description("NLP naf source for langstok NLP pipeline (newsreader adaptation)")
+                .title("KAFFLOW SOURCE-HTTP-NAF")
+                .description("LANGSTOK source for KAFFLOW NLP pipeline (newsreader adaptation)")
                 //.termsOfServiceUrl("http://springfox.io")
                 .license("Copyright colourful.news")
                 //.licenseUrl("https://github.com/springfox/springfox/blob/master/LICENSE")

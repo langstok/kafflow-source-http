@@ -1,7 +1,9 @@
-package com.langstok.kafflow.httpnaf.configuration;
+package com.langstok.kafflow.sourcehttp.configuration;
 
-import com.langstok.kafflow.httpnaf.configuration.properties.ElasticProperties;
-import org.apache.log4j.Logger;
+import com.langstok.kafflow.sourcehttp.configuration.properties.ElasticProperties;
+import com.langstok.kafflow.sourcehttp.repository.DocumentRepository;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
@@ -18,7 +20,7 @@ import java.net.UnknownHostException;
 @EnableConfigurationProperties(ElasticProperties.class)
 public class ElasticSearchConfiguration {
 
-    private final static Logger logger = Logger.getLogger(ElasticSearchConfiguration.class);
+    private Log log = LogFactory.getLog(ElasticSearchConfiguration.class);
 
     private final ElasticProperties elasticProperties;
 
@@ -29,7 +31,7 @@ public class ElasticSearchConfiguration {
     @Bean
     public Client client() throws UnknownHostException {
         if(elasticProperties.isEnabled()){
-            logger.info("Init elasticsearch: " + elasticProperties );
+            log.info("Init elasticsearch: " + elasticProperties );
             Settings settings = Settings.builder()
                     .put("cluster.name", elasticProperties.getClusterName()).build();
 
@@ -40,7 +42,7 @@ public class ElasticSearchConfiguration {
             return client;
         }
         else{
-            logger.info("ElasticSearch disabled");
+            log.info("ElasticSearch disabled");
             return null;
         }
     }

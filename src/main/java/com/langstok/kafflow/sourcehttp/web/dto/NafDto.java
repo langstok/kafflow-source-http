@@ -1,4 +1,4 @@
-package com.langstok.kafflow.httpnaf.web.dto;
+package com.langstok.kafflow.sourcehttp.web.dto;
 
 import java.util.Date;
 

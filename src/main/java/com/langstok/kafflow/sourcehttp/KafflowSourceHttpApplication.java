@@ -1,4 +1,4 @@
-package com.langstok.kafflow.httpnaf;
+package com.langstok.kafflow.sourcehttp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,9 +8,9 @@ import org.springframework.retry.annotation.EnableRetry;
 @SpringBootApplication
 @EnableEurekaClient
 @EnableRetry
-public class HttpNafSourceApplication {
+public class KafflowSourceHttpApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HttpNafSourceApplication.class, args);
+		SpringApplication.run(KafflowSourceHttpApplication.class, args);
 	}
 }

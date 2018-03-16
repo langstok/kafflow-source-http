@@ -1,4 +1,4 @@
-package com.langstok.kafflow.httpnaf.configuration.properties;
+package com.langstok.kafflow.sourcehttp.configuration.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -8,7 +8,7 @@ public class ElasticProperties {
     /**
      * ElasticSearch host (default localhost)
      */
-    private String host;
+    private String host = "localhost";
 
     /**
      * ElasticSearch port (default 9300)
@@ -27,9 +27,10 @@ public class ElasticProperties {
     private String index = "kaf";
 
     /**
-     * Use index language suffix (e.g. articles-en)
+     * Use index language suffix (e.g. kaf-en) default = true
      */
     private boolean indexLanguageSuffix = true;
+
 
     /**
      * Document type in index

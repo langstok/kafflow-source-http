@@ -1,10 +1,11 @@
-package com.langstok.kafflow.httpnaf.service;
+package com.langstok.kafflow.sourcehttp.service;
 
-import com.langstok.kafflow.httpnaf.configuration.properties.NafProperties;
-import com.langstok.kafflow.httpnaf.repository.ArticleRepository;
-import com.langstok.kafflow.httpnaf.web.dto.NafDto;
+import com.langstok.kafflow.sourcehttp.configuration.properties.NafProperties;
+import com.langstok.kafflow.sourcehttp.repository.DocumentRepository;
+import com.langstok.kafflow.sourcehttp.web.dto.NafDto;
 import ixa.kaflib.KAFDocument;
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.jdom2.JDOMException;
@@ -23,19 +24,19 @@ import java.text.SimpleDateFormat;
 @EnableConfigurationProperties(NafProperties.class)
 public class NafService {
 
-    private static final Logger logger = Logger.getLogger(NafService.class);
+    private Log log = LogFactory.getLog(NafService.class);
 
     private static final String FILE_TYPE_HTTP = "HTTP";
     private static final String NAFVERSION = KAFDocument.class.getClass().getPackage().getImplementationVersion();
     private static SimpleDateFormat dateFormat;
 
-    private ArticleRepository articleRepository;
+    private DocumentRepository documentRepository;
     private RetryTemplate retryTemplate;
     private NafProperties nafProperties;
 
 
-    public NafService(ArticleRepository articleRepository, RetryTemplate configuredRetry, NafProperties nafProperties) {
-        this.articleRepository = articleRepository;
+    public NafService(DocumentRepository documentRepository, RetryTemplate configuredRetry, NafProperties nafProperties) {
+        this.documentRepository = documentRepository;
         this.retryTemplate = configuredRetry;
          dateFormat = new SimpleDateFormat(nafProperties.getCreationDateFormat());
     }
@@ -67,21 +68,21 @@ public class NafService {
         document.getFileDesc().filename = dto.getFilename();
         document.getFileDesc().filetype = FILE_TYPE_HTTP;
 
-        logger.info("KAFDocument received (publicId / uri): " + document.getPublic().publicId + " / " + document.getPublic().uri);
+        log.info("KAFDocument received (publicId / uri): " + document.getPublic().publicId + " / " + document.getPublic().uri);
         return document;
     }
 
 
     public Path getKaf(String id, String language) throws IOException {
-        return articleRepository.getKaf(id, language);
+        return documentRepository.getKaf(id, language);
     }
 
     public GetResponse getKafDocumentByIdPoll(String id, String lang) throws Exception {
-        return retryTemplate.execute(context -> articleRepository.getKAFDocumentByIdExeption(id, lang));
+        return retryTemplate.execute(context -> documentRepository.getKAFDocumentByIdExeption(id, lang));
     }
 
     public DeleteResponse delete(String publicId, String language){
-        return articleRepository.delete(publicId, language);
+        return documentRepository.delete(publicId, language);
     }
 
 }

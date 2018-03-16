@@ -1,7 +1,6 @@
-package com.langstok.kafflow.httpnaf.service;
+package com.langstok.kafflow.sourcehttp.service;
 
 import ixa.kaflib.KAFDocument;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.messaging.MessageHeaders;
