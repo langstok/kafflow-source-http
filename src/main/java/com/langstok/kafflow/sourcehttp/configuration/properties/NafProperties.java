@@ -19,6 +19,19 @@ public class NafProperties {
 	 */
 	private Set<String> supportedLanguages = new HashSet<>(Arrays.asList("en"));
 
+	/**
+	 * Field in ElasticSearch doc to store dateAnnotated, if null field not stored
+	 */
+	private String fieldNaf = "kaf";
+
+	public String getFieldNaf() {
+		return fieldNaf;
+	}
+
+	public void setFieldNaf(String fieldNaf) {
+		this.fieldNaf = fieldNaf;
+	}
+
 	public String getCreationDateFormat() {
 		return creationDateFormat;
 	}

@@ -1,8 +1,10 @@
 package com.langstok.kafflow.sourcehttp.repository;
 
 import com.langstok.kafflow.sourcehttp.configuration.properties.ElasticProperties;
+import com.langstok.kafflow.sourcehttp.configuration.properties.NafProperties;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tomcat.util.digester.DocumentProperties;
 import org.elasticsearch.action.delete.DeleteRequestBuilder;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetRequestBuilder;
@@ -20,18 +22,20 @@ import java.util.Map;
 
 
 @Service
-@EnableConfigurationProperties(ElasticProperties.class)
+@EnableConfigurationProperties({ElasticProperties.class, NafProperties.class})
 public class DocumentRepository {
 
+	private NafProperties nafProperties;
 	private Log log = LogFactory.getLog(DocumentRepository.class);
 
 	private Client client;
 	private ElasticProperties elasticsearchProperties;
 
 
-	public DocumentRepository(Client client, ElasticProperties elasticProperties) {
+	public DocumentRepository(Client client, ElasticProperties elasticProperties, NafProperties nafProperties) {
 		this.client = client;
 		this.elasticsearchProperties = elasticProperties;
+		this.nafProperties = nafProperties;
 	}
 
     public GetResponse getKAFDocumentByIdExeption(String id, String language) throws Exception {
@@ -58,7 +62,7 @@ public class DocumentRepository {
 				.setId(id);
 
 		Map<String, Object> map = get.get().getSourceAsMap();
-		byte[] data = Base64.getDecoder().decode((String)map.get(elasticsearchProperties.getFieldNaf()));
+		byte[] data = Base64.getDecoder().decode((String)map.get(nafProperties.getFieldNaf()));
 		Path path = Paths.get("./" + id + "-kaf.xml");
 		Files.write(path, data);
 		return path;

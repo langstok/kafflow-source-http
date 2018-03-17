@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.Arrays;
+import java.util.Base64;
 
 @RestController
 @RequestMapping("/api/public")
@@ -40,15 +42,16 @@ public class NafPublicController {
 
     @PostMapping("/naf")
     @ApiOperation(value = "Synchronous pipeline call", notes = "For testing purposes only!")
-    public ResponseEntity<String> createDocumentPoll(@RequestBody(required = false) NafDto dto,
-                                                     @RequestPart(required = false) MultipartFile nafFile)
+    public ResponseEntity<String> createDocumentPoll(@RequestBody(required = false) NafDto dto
+//            , @RequestPart(required = false) MultipartFile nafFile
+    )
             throws IOException, JDOMException {
 
         KAFDocument kaf;
         if(dto!=null)
             kaf = nafService.create(dto);
-        else if(nafFile!=null)
-            kaf = nafService.create(nafFile);
+//        else if(nafFile!=null)
+//            kaf = nafService.create(nafFile);
         else
             return ResponseEntity.badRequest().build();
 
@@ -58,13 +61,15 @@ public class NafPublicController {
                     "Unsupported language="+kaf.getLang()
                     + " supported languages="+ Arrays.toString(nafProperties.getSupportedLanguages().toArray()));
 
-
         httpNafSource.sendMessage(kaf, ContentType.APPLICATION_JSON);
 
         try {
             GetResponse getResponse = nafService.getKafDocumentByIdPoll(kaf.getPublic().publicId, kaf.getLang());
             nafService.delete(dto.getPublicId(), kaf.getLang());
-            return ResponseEntity.ok(getResponse.getSourceAsString());
+
+            byte[] data = Base64.getDecoder().decode((String) getResponse.getSourceAsMap().get(nafProperties.getFieldNaf()));
+            String resultString = new String(data);
+            return ResponseEntity.ok(resultString);
         }
         catch(Exception e){
             log.error("No result within retry policy for document=" + kaf.getPublic().publicId);

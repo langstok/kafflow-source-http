@@ -3,9 +3,12 @@
  
 Based on the [newsreader](http://www.newsreader-project.eu/) NLP pipeline
 
+
 [news-reader](http://www.newsreader-project.eu/) modules adapted to a microservices-based distributed streaming pipeline. 
 
 [Spring Cloud Data Flow](https://cloud.spring.io/spring-cloud-dataflow/) / [Stream Cloud Stream](http://docs.spring.io/spring-cloud-stream/docs/current-SNAPSHOT/reference/htmlsingle/) 
+
+[Quickstart SCDF](https://cloud.spring.io/spring-cloud-stream-modules/)
 
 
 - Install [Kafka](https://kafka.apache.org/) & [Zookeeper](https://zookeeper.apache.org/)

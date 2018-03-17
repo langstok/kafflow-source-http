@@ -43,11 +43,6 @@ public class ElasticProperties {
      */
     private String fieldDateAnnotated = "dateAnnotated";
 
-    /**
-     * Field in ElasticSearch doc to store dateAnnotated, if null field not stored
-     */
-    private String fieldNaf = "kaf";
-
 
 
     /**
@@ -119,15 +114,6 @@ public class ElasticProperties {
     public void setFieldDateAnnotated(String fieldDateAnnotated) {
         this.fieldDateAnnotated = fieldDateAnnotated;
     }
-
-    public String getFieldNaf() {
-        return fieldNaf;
-    }
-
-    public void setFieldNaf(String fieldNaf) {
-        this.fieldNaf = fieldNaf;
-    }
-
 
 
     @Override
