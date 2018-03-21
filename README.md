@@ -1,8 +1,10 @@
-# KAFFLOW = KAF + SCDF
-##A NLP pipeline build on Spring Cloud Data Flow & KAF Document format
+# KAFFLOW = KAF &amp; SCDF
+##A NLP pipeline build on Spring Cloud Data Flow &amp; KAF Document format
  
 Based on the [newsreader](http://www.newsreader-project.eu/) NLP pipeline
 
+
+# WIP: currently moving to Kubernetes &amp; docker deployment
 
 [news-reader](http://www.newsreader-project.eu/) modules adapted to a microservices-based distributed streaming pipeline. 
 
@@ -15,54 +17,6 @@ Based on the [newsreader](http://www.newsreader-project.eu/) NLP pipeline
 - Install (for local usage) [spring-cloud-dataflow-server-local](https://github.com/spring-cloud/spring-cloud-dataflow/tree/master/spring-cloud-dataflow-server-local)
 
 Navigate to the Spring Data Flow Local dashboard [http://localhost:9393/dashboard](http://localhost:9393/dashboard) (default)
-
-## Clone and local install maven dependencies* ##
-
-LANGSTOK dependencies
-
-	git clone https://github.com/langstok/ims_maven.git
-	git clone https://github.com/langstok/stanford-corenlp-naf-mapper.git
-	git clone https://github.com/langstok/EventCoreference.git
-	git clone https://github.com/langstok/KafSaxParser
-	git clone https://github.com/langstok/mateplus_maven
-
-install ims_maven dependencies by following its README.MD
-install topic, srl, wsd dependencies by following its README.MD
-
-
-	mvn install -f ./ims_maven/pom.xml 
-	mvn install -f ./stanford-corenlp-naf-mapper/pom.xml
-	mvn install -f ./KafSaxParser/pom.xml
-	mvn install -f ./EventCoreference/pom.xml 
-
-
-NEWSREADER LANGSTOK adapatations
-
-    git clone https://bitbucket.org/langstok/source-http-naf
-    git clone https://bitbucket.org/langstok/processor-langstok-stanford-corenlp.git
-    git clone https://bitbucket.org/langstok/processor-ixa-pipe-parse.git
-    git clone https://bitbucket.org/langstok/processor-ixa-pipe-ned.git
-    git clone https://bitbucket.org/langstok/processor-ixa-pipe-wikify
-    git clone https://bitbucket.org/langstok/processor-ixa-pipe-time
-    git clone https://bitbucket.org/langstok/processor-ixa-pipe-srl
-    git clone https://bitbucket.org/langstok/processor-langstok-wsd-ims
-    git clone https://bitbucket.org/langstok/processor-langstok-naf-exec
-    git clone https://bitbucket.org/langstok/processor-ixa-pipe-topic
-	git clone https://bitbucket.org/langstok/processor-vua-eventcoreference.git
-    git clone https://bitbucket.org/langstok/sink-naf-http
-
-    mvn install -f ./source-http-naf/pom.xml
-	mvn install -f ./processor-langstok-stanford-corenlp/pom.xml
-    mvn install -f ./processor-ixa-pipe-parse/pom.xml
-    mvn install -f ./processor-ixa-pipe-ned/pom.xml
-    mvn install -f ./processor-ixa-pipe-wikify/pom.xml
-    mvn install -f ./processor-ixa-pipe-time/pom.xml
-    mvn install -f ./processor-ixa-pipe-srl/pom.xml
-    mvn install -f ./processor-langstok-wsd-ims/pom.xml
-    mvn install -f ./processor-langstok-naf-exec/pom.xml
-	mvn install -f ./processor-ixa-pipe-topic/pom.xml
-	mvn install -f ./processor-vua-eventcoreference/pom.xml
-    mvn install -f ./sink-naf-http/pom.xml
 
 
 ## Bulk Import Applications ##
@@ -143,4 +97,74 @@ retries = 0
 spring.cloud.stream.bindings.input.consumer.maxAttempts=1
 
 ## Logging ##
-To use Elastic stack for log analysis set the log dir.
+WIP
+
+## Kubernetes docker deployement
+
+### Windows 10 remarks
+
+Kubernetes (MiniKube) on Windows 10 (use git bash as admin):
+
+[@JockDaRock - minikube-on-windows-10-with-hyper-v](https://medium.com/@JockDaRock/minikube-on-windows-10-with-hyper-v-6ef0f4dc158c)
+
+ To use hyperv as a driver
+    
+    minikube start --vm-driver=hyperv --hyperv-virtual-switch="Primary Virtual Switch" --cpus=4 --memory=4096
+
+
+### [SCDF on kubernetes](https://docs.spring.io/spring-cloud-dataflow-server-kubernetes/docs/current/reference/htmlsingle/#kubernetes-getting-started)
+
+Skipper is not used (so far)
+
+Kafka edit of chapter 1.3
+
+    $ kubectl create -f src/kubernetes/kafka/
+    
+    $ kubectl create -f src/kubernetes/mysql/
+    $ kubectl create -f src/kubernetes/redis/
+    
+    $ kubectl create -f src/kubernetes/metrics/metrics-deployment-kafka.yaml
+    $ kubectl create -f src/kubernetes/metrics/metrics-svc.yaml
+    
+    $ kubectl create -f src/kubernetes/server/server-roles.yaml
+    
+    $ kubectl create -f src/kubernetes/server/server-rolebinding.yaml
+    
+    $ kubectl create -f src/kubernetes/server/service-account.yaml
+    $ kubectl create -f src/kubernetes/server/server-config-kafka.yaml
+    $ kubectl create -f src/kubernetes/server/server-svc.yaml
+    $ kubectl create -f src/kubernetes/server/server-deployment.yaml
+
+
+Create proxy when running on external machine
+
+    kubectl proxy --address 0.0.0.0 --accept-hosts '.*'
+
+
+To get minikube ip
+
+    minikube ip
+    
+To get SCDF service url in minikube
+
+    minikube service --url scdf-server
+    
+
+SCDF ssh client 
+
+    server-unknown:>dataflow config server http://192.168.99.100:32280 
+    app import http://bit.ly/Celsius-BUILD-SNAPSHOT-stream-applications-kafka-10-docker
+
+	
+
+Get SCDF [ticktock](https://github.com/spring-cloud/spring-cloud-dataflow/tree/master/spring-cloud-dataflow-server-local) running
+
+  
+    kubectl logs ticktock-log-76d7bbfcd5-n22kv -f
+
+
+Manage VirtualBox memory with [modifyvm](https://www.virtualbox.org/manual/ch08.html)
+    
+    VBoxManage modifyvm
+
+
