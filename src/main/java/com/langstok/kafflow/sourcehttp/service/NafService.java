@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
+import java.util.UUID;
 
 @Service
 @EnableConfigurationProperties(NafProperties.class)
@@ -54,7 +55,11 @@ public class NafService {
 
         document.createPublic();
         document.getPublic().uri = dto.getUri();
-        document.getPublic().publicId = dto.getPublicId();
+        String id =  dto.getPublicId();
+        if(id == null || id.isEmpty())
+            id = UUID.randomUUID().toString();
+
+        document.getPublic().publicId = id;
 
         document.createFileDesc();
         document.getFileDesc().creationtime = dateFormat.format(dto.getCreationtime());
