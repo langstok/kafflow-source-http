@@ -8,7 +8,7 @@ public class ElasticProperties {
     /**
      * ElasticSearch host (default localhost)
      */
-    private String host = "localhost";
+    private String host = "elasticsearch";
 
     /**
      * ElasticSearch port (default 9300)

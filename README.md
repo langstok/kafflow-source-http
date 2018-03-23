@@ -148,14 +148,14 @@ To get minikube ip
 To get SCDF service url in minikube
 
     minikube service --url scdf-server
+    kubectl get services my-service
     
 
 SCDF ssh client 
 
-    server-unknown:>dataflow config server http://192.168.99.100:32280 
+    server-unknown:>dataflow config server --username user --password password --uri http://192.168.99.100:30889 
     app import http://bit.ly/Celsius-BUILD-SNAPSHOT-stream-applications-kafka-10-docker
 
-	
 
 Get SCDF [ticktock](https://github.com/spring-cloud/spring-cloud-dataflow/tree/master/spring-cloud-dataflow-server-local) running
 
@@ -166,5 +166,29 @@ Get SCDF [ticktock](https://github.com/spring-cloud/spring-cloud-dataflow/tree/m
 Manage VirtualBox memory with [modifyvm](https://www.virtualbox.org/manual/ch08.html)
     
     VBoxManage modifyvm
+
+Run Elasticsearch
+
+    https://github.com/kubernetes/examples/tree/master/staging/elasticsearch
+
+Retrieve ElasticSearch clusterinfo
+
+    curl 192.168.99.100:31094/_cluster/health?pretty
+    
+
+Create KAFFLOW stream
+
+    stream create kaf3 --definition "kafflow-source-http3 --elasticsearch.cluster_name=myesdb --elasticsearch.port=9300 --elasticsearch.host=elasticsearch | log"
+
+
+Expose kafflow-source-http
+
+    kubectl get services
+    kubectl expose deployment/kaf4-kafflow-source-http4 --type="NodePort" --name kafexpose
+    
+Post KAF
+
+    kubectl get services
+    curl -H "Content-Type: application/json" -X POST -d '{"rawText":"This is a test","language":"en"}' http://192.168.99.100:31949/api/public/naf
 
 
