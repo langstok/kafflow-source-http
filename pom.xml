@@ -27,7 +27,7 @@
 		<springfox.version>2.7.0</springfox.version>
 		<spring-cloud.version>Edgware.SR2</spring-cloud.version>
 		<elasticsearch.version>6.1.1</elasticsearch.version>
-		<dockerfile-maven-plugin.version>1.3.4</dockerfile-maven-plugin.version>
+		<docker.image>langstok/${project.artifactId}</docker.image>
 	</properties>
 
 	<dependencies>
@@ -99,6 +99,25 @@
 		</dependencies>
 	</dependencyManagement>
 
+	<!--<dependencyManagement>-->
+		<!--<dependencies>-->
+			<!--<dependency>-->
+				<!--<groupId>org.springframework.cloud.stream.app</groupId>-->
+				<!--<artifactId>app-starters-core-dependencies</artifactId>-->
+				<!--<version>1.3.1.RELEASE</version>-->
+				<!--<type>pom</type>-->
+				<!--<scope>import</scope>-->
+			<!--</dependency>-->
+			<!--<dependency>-->
+				<!--<groupId>org.springframework.cloud.stream.app</groupId>-->
+				<!--<artifactId>log-app-dependencies</artifactId>-->
+				<!--<version>1.3.1.RELEASE</version>-->
+				<!--<type>pom</type>-->
+				<!--<scope>import</scope>-->
+			<!--</dependency>-->
+		<!--</dependencies>-->
+	<!--</dependencyManagement>-->
+
 	<repositories>
 		<repository>
 			<snapshots />
@@ -116,6 +135,7 @@
 		</repository>
 	</repositories>
 
+
 	<build>
 		<plugins>
 			<plugin>
@@ -123,55 +143,35 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>${maven-resources-plugin.version}</version>
-				<executions>
-					<execution>
-						<id>docker-resources</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>target/</outputDirectory>
-							<resources>
-								<resource>
-									<directory>src/main/docker/</directory>
-									<filtering>false</filtering>
-									<excludes>
-										<exclude>**/*.yml</exclude>
-									</excludes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>com.spotify</groupId>
-				<artifactId>dockerfile-maven-plugin</artifactId>
-				<version>${dockerfile-maven-plugin.version}</version>
-				<!--Uncomment the section below to build the docker image with mvn package and and push it with mvn deploy-->
-				<executions>
-					<execution>
-						<id>default</id>
-						<goals>
-							<goal>build</goal>
-							<goal>push</goal>
-						</goals>
-					</execution>
-				</executions>
+				<groupId>io.fabric8</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.24.0</version>
 				<configuration>
-					<repository>langstok/kafflow-source-http</repository>
-					<tag>latest</tag>
-					<contextDirectory>${project.build.directory}</contextDirectory>
+					<images>
+						<image>
+							<name>${docker.image}</name>
+							<build>
+								<from>anapsix/alpine-java:8</from>
+								<volumes>
+									<volume>/tmp</volume>
+								</volumes>
+								<entryPoint>
+									<exec>
+										<arg>java</arg>
+										<arg>-jar</arg>
+										<arg>/maven/kafflow-source-http.jar</arg>
+									</exec>
+								</entryPoint>
+								<assembly>
+									<descriptor>assembly.xml</descriptor>
+								</assembly>
+							</build>
+						</image>
+					</images>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-
-
 </project>
 
 
