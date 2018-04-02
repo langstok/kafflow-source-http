@@ -2,14 +2,13 @@ package com.langstok.kafflow.sourcehttp.repository;
 
 import com.langstok.kafflow.sourcehttp.configuration.properties.ElasticProperties;
 import com.langstok.kafflow.sourcehttp.configuration.properties.NafProperties;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.tomcat.util.digester.DocumentProperties;
 import org.elasticsearch.action.delete.DeleteRequestBuilder;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetRequestBuilder;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.Client;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +25,7 @@ import java.util.Map;
 public class DocumentRepository {
 
 	private NafProperties nafProperties;
-	private Log log = LogFactory.getLog(DocumentRepository.class);
+	private Logger logger = LoggerFactory.getLogger(DocumentRepository.class);
 
 	private Client client;
 	private ElasticProperties elasticsearchProperties;
@@ -43,7 +42,7 @@ public class DocumentRepository {
 		String index = getIndex(language);
 		String type = elasticsearchProperties.getType();
 
-		log.info("Poll " + index + "/" + type + "/" + id);
+		logger.info("Poll " + index + "/" + type + "/" + id);
 		GetResponse getResponse = client.prepareGet(index, type, id).get();
         if(!getResponse.isExists())
             throw new Exception("Document not found: " + id);
@@ -55,7 +54,7 @@ public class DocumentRepository {
 		String index = getIndex(language);
 		String type = elasticsearchProperties.getType();
 
-		log.info("Get " + index + "/" + type + "/" + id);
+		logger.info("Get " + index + "/" + type + "/" + id);
 		GetRequestBuilder get = client.prepareGet()
 				.setIndex(index)
 				.setType(type)
@@ -72,7 +71,7 @@ public class DocumentRepository {
 		String index = getIndex(language);
 		String type = elasticsearchProperties.getType();
 
-		log.info("Delete " + index + "/" + type + "/" + id);
+		logger.info("Delete " + index + "/" + type + "/" + id);
 		DeleteRequestBuilder deleteRequestBuilder = client.prepareDelete()
 				.setIndex(index)
 				.setType(type)

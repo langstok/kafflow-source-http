@@ -4,11 +4,11 @@ import com.langstok.kafflow.sourcehttp.configuration.properties.NafProperties;
 import com.langstok.kafflow.sourcehttp.repository.DocumentRepository;
 import com.langstok.kafflow.sourcehttp.web.dto.NafDto;
 import ixa.kaflib.KAFDocument;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.jdom2.JDOMException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ import java.util.UUID;
 @EnableConfigurationProperties(NafProperties.class)
 public class NafService {
 
-    private Log log = LogFactory.getLog(NafService.class);
+    private Logger logger = LoggerFactory.getLogger(NafService.class);
 
     private static final String FILE_TYPE_HTTP = "HTTP";
     private static final String NAFVERSION = KAFDocument.class.getClass().getPackage().getImplementationVersion();
@@ -73,7 +73,7 @@ public class NafService {
         document.getFileDesc().filename = dto.getFilename();
         document.getFileDesc().filetype = FILE_TYPE_HTTP;
 
-        log.info("KAFDocument received (publicId / uri): " + document.getPublic().publicId + " / " + document.getPublic().uri);
+        logger.info("KAFDocument received (publicId / uri): " + document.getPublic().publicId + " / " + document.getPublic().uri);
         return document;
     }
 

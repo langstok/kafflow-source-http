@@ -175,20 +175,31 @@ Retrieve ElasticSearch clusterinfo
 
     curl 192.168.99.100:31094/_cluster/health?pretty
     
+Import apps in SCDF shell
+
+    app import http://sanderputs.com/stream/bulkimportappdocker.properties
+
+
 
 Create KAFFLOW stream
 
-    stream create kaf3 --definition "kafflow-source-http3 --elasticsearch.cluster_name=myesdb --elasticsearch.port=9300 --elasticsearch.host=elasticsearch | log"
+    stream create kafflow --definition "kafflow-source-http --elasticsearch.cluster_name=myesdb --elasticsearch.port=9300 --elasticsearch.host=elasticsearch | kafflow-processor-ixa-pipe-tok | kafflow-processor-ixa-pipe-pos | kafflow-processor-ixa-pipe-nerc | kafflow-sink-elasticsearch --elasticsearch.cluster_name=myesdb --elasticsearch.port=9300 --elasticsearch.host=elasticsearch"
 
 
 Expose kafflow-source-http
 
     kubectl get services
-    kubectl expose deployment/kaf4-kafflow-source-http4 --type="NodePort" --name kafexpose
+    kubectl expose deployment/kafflow-source-http --type="NodePort" --name kafexpose
     
 Post KAF
 
     kubectl get services
-    curl -H "Content-Type: application/json" -X POST -d '{"rawText":"This is a test","language":"en"}' http://192.168.99.100:31949/api/public/naf
+    curl -v -H "Content-Type: application/json" -X POST -d '{"rawText":"This is a test","language":"en","publicId":"test"}' http://192.168.99.100:<service-port>/api/public/naf
 
 
+    --properties "spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.brokers=kafka:9092,spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.zkNodes=kafka-zk:2888"
+
+
+GET docker  env
+
+    eval $(minikube docker-env)

@@ -6,19 +6,20 @@ import com.langstok.kafflow.sourcehttp.service.NafService;
 import com.langstok.kafflow.sourcehttp.web.dto.NafDto;
 import io.swagger.annotations.ApiOperation;
 import ixa.kaflib.KAFDocument;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.http.entity.ContentType;
 import org.elasticsearch.action.get.GetResponse;
 import org.jdom2.JDOMException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.Arrays;
 import java.util.Base64;
 
@@ -27,7 +28,7 @@ import java.util.Base64;
 @EnableConfigurationProperties(NafProperties.class)
 public class NafPublicController {
 
-    private Log log = LogFactory.getLog(NafPublicController.class);
+    private Logger logger = LoggerFactory.getLogger(NafPublicController.class);
 
 
     private HttpNafSource httpNafSource;
@@ -72,7 +73,7 @@ public class NafPublicController {
             return ResponseEntity.ok(resultString);
         }
         catch(Exception e){
-            log.error("No result within retry policy for document=" + kaf.getPublic().publicId);
+            logger.error("No result within retry policy for document=" + kaf.getPublic().publicId);
         }
         return ResponseEntity.status(HttpStatus.GATEWAY_TIMEOUT).build();
     }

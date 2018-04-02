@@ -8,15 +8,6 @@ document:
    index: ${langstok.nlp.elasticsearch.index:nlp}
    type: ${langstok.nlp.elasticsearch.type:kaf}
 
-eureka:
- client:
-  enabled: false
-  serviceUrl:
-   defaultZone: ${vcap.services.eureka-service.credentials.uri:http://localhost:8761}/eureka/
- instance:
-    statusPageUrlPath: /
-    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-
 logging:
   file: source-http-naf.log
   level: 
