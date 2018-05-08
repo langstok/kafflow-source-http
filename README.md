@@ -184,21 +184,25 @@ Import apps in SCDF shell
 Create KAFFLOW stream
 
     stream create kafflow --definition "kafflow-source-http --elasticsearch.cluster_name=myesdb --elasticsearch.port=9300 --elasticsearch.host=elasticsearch | kafflow-processor-ixa-pipe-tok | kafflow-processor-ixa-pipe-pos | kafflow-processor-ixa-pipe-nerc | kafflow-sink-elasticsearch --elasticsearch.cluster_name=myesdb --elasticsearch.port=9300 --elasticsearch.host=elasticsearch"
+    stream create kafflow --definition "kafflow-source-http --elasticsearch.cluster_name=myesdb --elasticsearch.port=9300 --elasticsearch.host=elasticsearch | kafflow-processor-spacy | kafflow-sink-elasticsearch --elasticsearch.cluster_name=myesdb --elasticsearch.port=9300 --elasticsearch.host=elasticsearch"
 
-
+    --properties "deployer.kafflow-processor-spacy.kubernetes.entryPointStyle=boot"
+                                        
 Expose kafflow-source-http
 
     kubectl get services
     kubectl expose deployment/kafflow-source-http --type="NodePort" --name kafexpose
     
-Post KAF
+POST KAF
 
     kubectl get services
     curl -v -H "Content-Type: application/json" -X POST -d '{"rawText":"This is a test","language":"en","publicId":"test"}' http://192.168.99.100:<service-port>/api/public/naf
 
 
-    --properties "spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.brokers=kafka:9092,spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.zkNodes=kafka-zk:2888"
+    
 
+
+### Cheatsheet
 
 GET docker  env
 
